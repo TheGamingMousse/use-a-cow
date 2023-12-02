@@ -5,7 +5,7 @@ using namespace std;
 
 struct Demo1 {
     int a, b, c;
-    bool operator<(Demo1 y) const {
+    bool operator<(const Demo1& y) const {
         return c < y.c;
     }
 };
