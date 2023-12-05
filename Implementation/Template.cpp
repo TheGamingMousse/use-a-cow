@@ -2,7 +2,7 @@
 using namespace std;
 using ll = long long;
 using pii = pair<int, int>;
-using pll = pair<ll, ll>;
+#define all(x) begin(x), end(x)
 #define pb push_back
 #define ins insert
 #define f first 
