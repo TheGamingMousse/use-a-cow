@@ -3,6 +3,8 @@ using namespace std;
 using ll = long long;
 using pii = pair<int, int>;
 #define all(x) begin(x), end(x)
+#define ckmin(a, b) a = min(a, b)
+#define ckmax(a, b) a = max(a, b)
 #define pb push_back
 #define ins insert
 #define f first 
