@@ -1,28 +1,44 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+#define all(x) begin(x), end(x)
+#define ckmin(a, b) a = min(a, b)
+#define ckmax(a, b) a = max(a, b)
+#define pb push_back 
+#define ins insert
 #define f first 
-#define s second 
+#define s second
 
-int grid[3000][3000], total = 0;
-void solve(int r, int c) {
-    int dr[] = {0, 0, 1, -1};
-    int dc[] = {1, -1, 0, 0};
-    queue<pair<int, int>> q;
+const int MAX = 3e3;
+bool placed[MAX][MAX];
+int dr[]{0, 0, 1, -1},
+    dc[]{1, -1, 0, 0};
+int n = 0, res = 0;
+bool comfy(int a, int b) {
+    int cnt = 0;
+    for (int i = 0; i < 4; i++) {
+        if (placed[a + dr[i]][b + dc[i]]) ++cnt;
+    }
+    return (cnt == 3);
+}
+void adjust(int r, int c) {
+    queue<pii> q;
     q.push({r, c});
-    auto process = [&](int r, int c) {
-        if (!grid[r][c]) return;
-        int occ = 0;
-        for (int i = 0; i < 4; i++) {
-            if (grid[r + dr[i]][c + dc[i]]) occ++;
+    auto process = [&](int a, int b) {
+        if (!placed[a][b] ||
+            !comfy(a, b)) {
+            return;
         }
-        if (occ == 3) {
-            total++;
-            for (int i = 0; i < 4; i++) {
-                if (!grid[r + dr[i]][c + dc[i]]) {
-                    grid[r + dr[i]][c + dc[i]] = 2;
-                    q.push({r + dr[i], c + dc[i]});
-                }
+        ++res;
+        for (int i = 0; i < 4; i++) {
+            int r = a + dr[i],
+                c = b + dc[i];
+            if (!placed[r][c]) {
+                placed[r][c] = 1;
             }
+            q.push({r, c});
         }
     };
     while (!q.empty()) {
@@ -32,40 +48,34 @@ void solve(int r, int c) {
             process(p.f + dr[i], p.s + dc[i]);
         }
     }
-    cout << total << '\n';
 }
 int main() {
-    cin.tie(0) -> sync_with_stdio(false);
-    int n; cin >> n;
+    cin.tie(0) -> sync_with_stdio(0);
+    cin >> n;
     for (int i = 0; i < n; i++) {
-        int r, c; cin >> r >> c; 
-        r += 1000, c += 1000;
-        if (grid[r][c] == 2) {
-            grid[r][c] = 1;
-            cout << --total << '\n';
+        int r, c; cin >> r >> c;
+        r += 1500, c += 1500;
+        if (placed[r][c]) {
+            placed[r][c] = 1;
+            --res;
         } else {
-            grid[r][c] = 1;
-            solve(r, c);
+            placed[r][c] = 1;
+            adjust(r, c);
         }
+        cout << res << '\n';
     }
 }
-/*
-Algorithm:
-We are using a floodfill-like BFS algorithm to add cows.
-
-The logic:
-If you add a cow, there are 3 cases:
-a. The cow is completely alone (not next to any cows). You don't have to 
-worry aboutthis case and can just print out your previous answer.
-b. The cow is on a spot we had to add a cow earlier. In this case,
-you don't have to worry at all because the grid is still the
-same and is still optimal. You'll just need to print out the previous answer - 1.
-c. The cow is next to a group of cows. Every cow added will be placed in a queue.
-For each cow placed in the queue, the following steps will happen.
-1. The current cow will be processed. 
-2. The cows next to the current cow will be processed, in case the
-current cow or if the cow that might need to be placed affects
-the adjacent cows.
-The processing consists of checking if there needs to be a cow placed.
-If so, that cow will be marked on the grid and pushed to the queue.
+/**
+ * When adding each cow, if
+ * the addition of the cow will make
+ * any adjacent cow comfortable, you need
+ * to run on that cow. So, just BFS.
+ * 
+ * When processing a cow, first check if 
+ * the newly placed cow is comfortable. If so,
+ * place a cow there and check every adjacent
+ * location to see if it's comfy.
+ * 
+ * BFS works because it go outwards and also
+ * go back to double check if a cell is ok.
 */
