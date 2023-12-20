@@ -30,30 +30,28 @@ struct BIT {
 template<class T> class FT {
     private:
         int sz;
-        vector<T> arr;
-        // 1 indexed
+        vector<T> pf;
     public:
         FT(int n) {
             sz = n + 1;
-            arr.resize(n + 1);
+            pf.resize(n + 1);
         }
         T prefix(int idx) {
             ++idx; 
             T tot = 0;
             while (idx >= 1) {
-                tot += arr[idx];
+                tot += pf[idx];
                 idx -= idx & -idx;
             }
             return tot;
         }
         T query(int l, int r) {
-            // l and r 0 indexed
-            return prefix(r + 1) - prefix(l);
+            return prefix(r) - prefix(l - 1);
         }
         void update(int idx, T dx) {
             ++idx;
             while (idx <= sz) {
-                arr[idx] += dx;
+                pf[idx] += dx;
                 idx += idx & -idx;
             }
         }
