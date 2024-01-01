@@ -35,6 +35,14 @@ void demo() {
     priority_queue<Demo1> pq; // valid 
     priority_queue<int, vector<int>, greater<int>> pq1; // valid
 }
+struct Edge {
+    int f, s, w, id;
+};
+bool operator<(const Edge& x, 
+    const Edge& y) {
+    return x.w > y.w;
+}
+// ^^ also valid
 /*
 Note: For custom sets,
 the operator cannot use smth like

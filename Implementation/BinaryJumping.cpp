@@ -61,4 +61,8 @@ int lca(int u, int v) {
  * are offline / one query won't affect the next
  * query, then you should consider changing the
  * order in which each query is processed.
+ * 
+ * Note for Binary Jumping: You can actually use
+ * it to query paths, assuming you also use
+ * LCA. Basically, discount HLD.
 */
