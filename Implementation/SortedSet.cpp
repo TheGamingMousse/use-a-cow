@@ -1,7 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+#define all(x) begin(x), end(x)
+#define ckmax(a, b) a = max(a, b)
+#define ckmin(a, b) a = min(a, b)
+#define pb push_back
+#define ins insert
 #define f first 
-#define s second
+#define s second 
 
 struct Demo1 {
     int a, b, c;
@@ -50,4 +58,29 @@ Demo1&!! Unless it's const Demo1&.
 Also, lower bound needs an
 object to be passed through...
 obviously.
+*/
+struct hsh {
+	size_t operator()(const pii &p) const {
+		return p.f * 239 + p.s;
+	}
+};
+struct hashPII {
+    size_t operator()(const pii &p) const {
+        return p.f * 239 + p.s; 
+    }
+};
+/**
+ * For the upper two:
+ * unordered_map<pii, T, hash>
+*/
+namespace std {
+    template <> struct hash<pii> {
+        size_t operator()(const pii &p) const { 
+            return p.f * 239 + p.s; 
+        }
+    };
+}
+/**
+ * For this, you can just do
+ * unordered_map<pii, int>.
 */
