@@ -29,12 +29,11 @@ struct BIT {
 };
 template<class T> class FT {
     private:
-        int sz;
-        vector<T> pf;
+        int sz; vector<T> pf;
     public:
+        FT() {}
         FT(int n) {
-            sz = n + 1;
-            pf.resize(n + 1);
+            sz = n + 1, pf.resize(n + 1);
         }
         T prefix(int idx) {
             ++idx; 
