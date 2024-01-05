@@ -63,3 +63,14 @@ void ff(int r, int c, int MAXR, int MAXC,
         ff(r + dr[i], c + dc[i], MAXR, MAXC, color, grid, vis);
     }
 }
+void lambdaDFS() {
+    vector<vector<int>> adj;
+    vector<bool> vis;
+    // assume its defined.
+    auto dfs = [&](int node, auto& dfs) {
+        vis[node] = true;
+        for (int i : adj[node]) {
+            if (!vis[i]) dfs(i, dfs);
+        }
+    };
+}
