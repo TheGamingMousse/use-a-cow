@@ -49,11 +49,8 @@ template<class T> class FT {
             return prefix(r) - prefix(l - 1);
         }
         void update(int idx, T dx) {
-            ++idx;
-            while (idx <= sz) {
             for (++idx; idx < sz; idx += bit(idx)) {
                 pf[idx] += dx;
-                idx += idx & -idx;
             }
         }
 };
