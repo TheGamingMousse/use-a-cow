@@ -35,12 +35,13 @@ template<class T> class FT {
         FT(int n) {
             sz = n + 1, pf.resize(n + 1);
         }
+        T bit(int idx) {
+            return idx & -idx;
+        }
         T prefix(int idx) {
-            ++idx; 
             T tot = 0;
-            while (idx >= 1) {
+            for (++idx; idx > 0; idx -= bit(idx)) {
                 tot += pf[idx];
-                idx -= idx & -idx;
             }
             return tot;
         }
@@ -50,6 +51,7 @@ template<class T> class FT {
         void update(int idx, T dx) {
             ++idx;
             while (idx <= sz) {
+            for (++idx; idx < sz; idx += bit(idx)) {
                 pf[idx] += dx;
                 idx += idx & -idx;
             }
@@ -75,7 +77,7 @@ template<class T> class FT2D {
             }
         }
         T get(int r, int c) {
-            T tot = 0;
+            T tot = 0; ++r, ++c;
             for (int i = r; i > 0; i -= i & -i) {
                 for (int j = c; j > 0; j -= j & -j) {
                     tot += arr[i][j];
