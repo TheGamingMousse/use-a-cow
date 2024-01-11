@@ -10,7 +10,7 @@ int depth[MAX], dp[MAX],
 void dfs(int node) {
     dp[node] = 0;
     for (int i : adj[node]) {
-        if (depth[i] == 0) {
+        if (!depth[i]) {
             depth[i] = depth[node] + 1;
             dfs(i); dp[node] += dp[i];
         } else if (depth[i] < depth[node]) {
