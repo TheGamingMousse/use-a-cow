@@ -1,19 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int binarySearch1(vector<bool>& check) {
-    int low = 0, high = check.size() - 1;
+int binarySearch1(function<bool(int)> check) {
+    int low = 0, high = 1e5; // arbitrary
     while (low < high) {
         int mid = low + (high - low) / 2;
-        if (check[mid]) high = mid;
+        if (check(mid)) high = mid;
         else low = mid + 1;
     }
 }
-int binarySearch2(vector<bool>& check) {
-    int low = 0, high = check.size() - 1;
+int binarySearch2(function<bool(int)> check) {
+    int low = 0, high = 1e5; // arbitrary
     while (low < high) {
         int mid = (low + high + 1) / 2;
-        if (check[mid]) low = mid;
+        if (check(mid)) low = mid;
         else high = mid - 1;
     }
 }

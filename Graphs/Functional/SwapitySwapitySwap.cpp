@@ -1,8 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+using ll = long long;
+using pii = pair<int, int>;
+#define all(x) begin(x), end(x)
+#define pb push_back
+#define ins insert
 #define f first 
-#define s second
+#define s second 
 
 int main() {
     cin.tie(0) -> sync_with_stdio(false);
@@ -10,7 +14,7 @@ int main() {
     freopen("swap.out", "w", stdout);
     int n, m, k; cin >> n >> m >> k;
     vector<int> ord(n + 1);
-    for (int i = 1; i <= n; i++) ord[i] = i;
+    iota(all(ord), 0);
     for (int i = 0; i < m; i++) {
         int a, b; cin >> a >> b;
         reverse(begin(ord) + a, begin(ord) + b + 1);
@@ -43,11 +47,11 @@ int main() {
         cout << res[i] << '\n';
     }
 }
-/*
-Precalculate where each cow at a certain position will go after
-one iteration of the swapping process. Because each spot has
-an in and out degree of one, it is a functional graph
-with a bunch of disjoint cycles. Because it's a cycle,
-we only need to "simulate" k % (cycle size) iterations
-of the process. 
+/**
+ * Precalculate where each cow at a certain position will go after
+ * one iteration of the swapping process. Because each spot has
+ * an in and out degree of one, it is a functional graph
+ * with a bunch of disjoint cycles. Because it's a cycle,
+ * we only need to "simulate" k % (cycle size) iterations
+ * of the process. 
 */
