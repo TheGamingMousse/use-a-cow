@@ -13,9 +13,9 @@ using pii = pair<int, int>;
 
 const int N = 1e5;
 vector<int> adj[N];
+int subFiles[N], len[N];
 ll dp[N], tot;
 bool isFile[N];
-int subFiles[N], len[N];
 void dfs1(int u, int p) {
     for (int i : adj[u]) {
         if (i == p) continue;

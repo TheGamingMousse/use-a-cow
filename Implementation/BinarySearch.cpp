@@ -8,6 +8,7 @@ int binarySearch1(function<bool(int)> check) {
         if (check(mid)) high = mid;
         else low = mid + 1;
     }
+    return low;
 }
 int binarySearch2(function<bool(int)> check) {
     int low = 0, high = 1e5; // arbitrary
@@ -16,15 +17,16 @@ int binarySearch2(function<bool(int)> check) {
         if (check(mid)) low = mid;
         else high = mid - 1;
     }
+    return low;
 }
-int binarySearch3(function<bool(double)> check) {
+double binarySearch3(function<bool(double)> check) {
     double low = 0, high = 1e5, precision = 1e-5;
     while (high - low > precision) {
         double mid = (low + high) / 2;
         if (check(mid)) high = mid;
         else low = mid;
     }
-    cout << low << "\n";
+    return low;
 }
 /*
 binarySearch1: finding the lowest "true"

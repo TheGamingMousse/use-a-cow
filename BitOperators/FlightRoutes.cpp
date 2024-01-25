@@ -1,20 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-using pii = pair<int, int>;
-#define all(x) begin(x), end(x)
-#define sz(x) (int) (x).size()
-#define pb push_back 
-#define ins insert
-#define f first 
-#define s second
 
-template<class T> bool smin(T& a, T b) { 
-    return b < a ? a = b, 1 : 0;
-}
-template<class T> bool smax(T& a, T b) { 
-    return b > a ? a = b, 1 : 0;
-}
 int par[751][751];
 int main() {
     cin.tie(0) -> sync_with_stdio(0);

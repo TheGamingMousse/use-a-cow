@@ -24,7 +24,7 @@ void dfs2(int node, int prev) {
     if (node != 1) {
         for (int i = k; i >= 2; i--) {
             dp[node][i] += dp[prev][i - 1]
-                - dp[node][i - 2];
+                        - dp[node][i - 2];
         }
         dp[node][1]++;
     }
@@ -35,8 +35,7 @@ void dfs2(int node, int prev) {
     }
 }
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
+    cin.tie(0) -> sync_with_stdio(0);
     cin >> n >> k;
     for (int i = 1; i < n; i++) {
         int x, y; cin >> x >> y;
