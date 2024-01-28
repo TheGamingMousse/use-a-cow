@@ -12,8 +12,7 @@ const int INF = 1e9;
 char grid[N][N];
 bool vis[N][N];
 int rdist[N][N], cst[N][N], n, d;
-int dr[]{1, -1, 0, 0},
-    dc[]{0, 0, 1, -1};
+int dr[]{1, -1, 0, 0}, dc[]{0, 0, 1, -1};
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
     cin >> n >> d;
