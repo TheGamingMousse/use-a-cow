@@ -14,43 +14,41 @@ using pii = pair<int, int>;
 const int N = 2e5;
 vector<int> adj[N];
 vector<int> topsort;
-bool vis[N];
-void dfs(int node) {
-    vis[node] = true;
-    for (int i : adj[node]) {
-        if (!vis[i]) dfs(i);
-    }
-    topsort.pb(node);
-}
-void compute(int n) {
-    for (int i = 0; i < n; i++) {
-        if (!vis[i]) dfs(i);
-    }
-    reverse(all(topsort));
-}
+int inDeg[N];
 int main() {
+    cin.tie(0) -> sync_with_stdio(0);
     int n, m; cin >> n >> m;
     for (int i = 0; i < m; i++) {
-        int x, y; 
+        int x, y;
         cin >> x >> y;
         --x, --y;
+        inDeg[y]++;
         adj[x].pb(y);
     }
-    compute(n);
-    vector<int> ind(n);
+    priority_queue<int> pq;
     for (int i = 0; i < n; i++) {
-        ind[topsort[i]] = i;
+        if (!inDeg[i]) pq.push(-i);
     }
-    for (int i = 0; i < n; i++) {
-        for (int j : adj[i]) {
-            if (ind[j] <= ind[i]) {
-                cout << "IMPOSSIBLE" << '\n';
-                return 0;
+    while (!pq.empty()) {
+        int u = -pq.top(); pq.pop();
+        topsort.pb(u);
+        for (int i : adj[u]) {
+            --inDeg[i];
+            if (!inDeg[i]) {
+                pq.push(-i);
             }
         }
+    }
+    if (sz(topsort) != n) {
+        cout << "IMPOSSIBLE" << '\n';
+        return 0;
     }
     for (int i : topsort) {
         cout << i + 1 << ' ';
     }
     cout << '\n';
 }
+/**
+ * Lexicographically minimum
+ * toposort, using Kahns.
+*/

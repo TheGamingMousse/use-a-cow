@@ -2,31 +2,6 @@
 using namespace std;
 typedef long long ll;
 
-struct BIT {
-    int size;
-    vector<ll> arr;
-    BIT(int n) {
-        size = n + 1, arr.resize(n + 1);
-    }
-    void setSize(int n) {
-        size = n + 1, arr.resize(n + 1);
-    }
-    ll prefix(int idx) const {
-        idx++; ll total = 0;
-        while (idx >= 1) {
-            total += arr[idx];
-            idx -= idx & -idx;
-        }
-        return total;
-    }
-    void update(int idx, int change) {
-        idx++; if (!change) return;
-        while (idx <= size) {
-            arr[idx] += change;
-            idx += idx & -idx;
-        }
-    }
-};
 template<class T> class FT {
     private:
         int sz; vector<T> pf;
@@ -172,5 +147,6 @@ template <class T> class ST {
         }
 };
 /*
-Much shorter implementation.
+ * Much shorter implementation.
+ * Also iterative, but no lazy prop :c
 */

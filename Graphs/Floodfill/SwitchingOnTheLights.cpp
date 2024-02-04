@@ -14,11 +14,11 @@ void ff(int r, int c) {
         return;
     }
     vis[r][c] = 1;
-    for (auto& i : sw[r][c]) {
-        on[i.f][i.s] = 1;
+    for (auto [f, s] : sw[r][c]) {
+        on[f][s] = 1;
         for (int j = 0; j < 4; j++) {
-            if (vis[i.f + dr[j]][i.s + dc[j]]) {
-                ff(i.f, i.s);
+            if (vis[f + dr[j]][s + dc[j]]) {
+                ff(f, s);
             }
         }
     }
@@ -36,7 +36,8 @@ int main() {
         cin >> x >> y >> a >> b;
         sw[x][y].push_back({a, b});
     }
-    on[1][1] = 1; ff(1, 1);
+    on[1][1] = 1; 
+    ff(1, 1);
     int ans = 0;
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {

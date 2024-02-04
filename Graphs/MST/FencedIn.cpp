@@ -1,97 +1,75 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+using ll = long long;
+using pii = pair<int, int>;
+#define all(x) begin(x), end(x)
+#define sz(x) (int) (x).size()
+#define pb push_back
+#define ins insert
 #define f first 
-#define s second
+#define s second 
 
-struct DSU {
-    vector<int> e;
-    DSU(int n) { 
-        e = vector<int>(n, -1); 
-    }
-    int get(int x) { 
-        return e[x] < 0 ? x : e[x] = get(e[x]); 
-    }
-    bool connected(int a, int b) {
-        return get(a) == get(b); 
-    }
-    int size(int x) { 
-        return -e[get(x)]; 
-    }
-    bool unite(int x, int y) {
-        x = get(x), y = get(y);
-        if (x == y) return false;
-        if (e[x] > e[y]) swap(x, y);
-        e[x] += e[y];
-        e[y] = x;
-        return true;
-    }
-};
-struct Edge {
-    int a, b, w;
-    bool operator<(const Edge& y) const {
-        return w < y.w;
-    }
-};
-int dr[]{1, 0}, dc[]{0, 1};
 int main() {
-    cin.tie(0) -> sync_with_stdio(false);
+	cin.tie(0) -> sync_with_stdio(0);
     freopen("fencedin.in", "r", stdin);
     freopen("fencedin.out", "w", stdout);
-    int a, b, n, m; cin >> a >> b >> n >> m;
-    vector<int> vert(n), horiz(m);
-    for (int& i : vert) cin >> i;
-    for (int& i : horiz) cin >> i;
-    vert.push_back(b), horiz.push_back(a);
-    sort(begin(vert), end(vert));
-    sort(begin(horiz), end(horiz));
-    int vertPrev = 0, horizPrev = 0; ++n, ++m;
-    auto id = [&](int i, int j) {
-        if (n >= m) return i * n + j;
-        else return i * m + j;
-    };
-    vector<Edge> lst;
-    for (int i = 0; i < n; i++) { // vert
-        for (int j = 0; j < m; j++) { // horiz
-            int vertPrev = (i > 0) ? vert[i - 1] : 0;
-            int horizPrev = (j > 0) ? horiz[j - 1] : 0;
-            for (int k = 0; k < 2; k++) {
-                int r1 = i + dr[k], c1 = j + dc[k];
-                int id1 = id(i, j), id2 = id(r1, c1);
-                if (r1 >= 0 && r1 < n &&
-                    c1 >= 0 && c1 < m) {
-                    Edge res;
-                    if (r1 != i) {
-                        res = {id1, id2, horiz[j] - horizPrev};
-                    } else {
-                        res = {id1, id2, vert[i] - vertPrev};
-                    }
-                    lst.push_back(res);
-                }
-            }
+    ll a, b, n, m; 
+    cin >> a >> b >> n >> m;
+    vector<ll> v(n + 2), h(m + 2);
+    for (int i = 1; i <= n; i++) {
+        cin >> v[i];
+    }
+    for (int i = 1; i <= m; i++) {
+        cin >> h[i];
+    }
+    v[n + 1] = a, h[m + 1] = b;
+    sort(all(v)), sort(all(h));
+    for (int i = 0; i <= n; i++) {
+        v[i] = v[i + 1] - v[i];
+    }
+    for (int i = 0; i <= m; i++) {
+        h[i] = h[i + 1] - h[i];
+    }
+    v.pop_back(), h.pop_back();
+    sort(all(v)), sort(all(h));
+    ll res = v[0] * m + h[0] * n;
+    int p1 = 1, p2 = 1;
+    ++m, ++n;
+    while (p1 < n && p2 < m) {
+        if (v[p1] < h[p2]) {
+            res += v[p1] * (m - p2);
+            ++p1;
+        } else {
+            res += h[p2] * (n - p1);
+            ++p2;
         }
     }
-    sort(begin(lst), end(lst));
-    int sz = (n >= m) ? n * (n - 1) + m + 1
-         : m * (m - 1) + n + 1;
-    DSU dsu(sz);
-    ll ans = 0;
-    for (auto& i : lst) {
-        if (dsu.unite(i.a, i.b)) {
-            ans += i.w;
-        }
-    }
-    cout << ans << '\n';
+    cout << res << '\n';
 }
-/*
-Algorithm:
-Construct a graph with each node being
-a isolated area, and an edge to another
-node being the length of fence between them.
-Use kruskal's algorithm to get a MST.
-
-Note: This algorithm runs VERY close to the
-time limit. It got 1962 ms on the last TC,
-and TLE'd on the last TC the first time I ran
-it.
+/**
+ * TASK: Fenced In (Platinum).
+ * Observation 1: You always remove
+ * fences in "blocks", in order of length.
+ * 
+ * Observation 2: If given an optimal solution,
+ * swapping two adjacent rows or two adjacent columns
+ * does not change the answer.
+ * 
+ * So, what can we do with observation 2? Well, it 
+ * justifies removing everything into blocks. Basically,
+ * now that we can justify removing everything in blocks.
+ * 
+ * Every time we remove a block of horizontal/vertical 
+ * fences, you need to know how many of these fences you
+ * want to remove. So, how many do you need to remove?
+ * 
+ * The answer is that, if we remove a strip of fences of
+ * some orientation, you need to remove (total possible - 
+ * removed in the opposite direction).
+ * 
+ * Why is this? If we think about it for a little bit,
+ * all the "blocks" of fences horizontally that you might
+ * want to remove are already united, so you only need to
+ * remove one block for each one of those. Why? Reference
+ * observation 2.
 */
