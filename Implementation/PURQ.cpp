@@ -6,10 +6,10 @@ template<class T> class FT {
     private:
         int sz; vector<T> pf;
     public:
-        FT() {}
         FT(int n) {
             sz = n + 1, pf.resize(n + 1);
         }
+        FT() {} // for empty init
         T bit(int idx) {
             return idx & -idx;
         }
@@ -127,6 +127,7 @@ template <class T> class ST {
     public:
         ST(int len) : len(len),
             t(len * 2, DEF) {}
+        ST() {} // for empty init
         void set(int idx, T val) {
             idx += len;
             t[idx] = val;

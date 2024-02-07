@@ -20,3 +20,6 @@ int mult(int a, int b) {
 int main() {
     cout << mult(69, 69);
 }
+/**
+ * This is so stupid. lmao
+*/
