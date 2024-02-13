@@ -135,8 +135,8 @@ template <class T> class ST {
                 t[idx / 2] = t[idx] + t[idx ^ 1];
             }
         }
-        T query(int l, int r) {
-            T res = 0;
+        T query(int l, int r) { // on [l, r)
+            T res = DEF;
             for (l += len, r += len; l < r; l /= 2, r /= 2) {
                 if (l & 1) res += t[l++];
                 if (r & 1) res += t[--r];
