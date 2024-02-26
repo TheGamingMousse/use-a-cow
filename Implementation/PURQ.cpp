@@ -10,9 +10,7 @@ template<class T> class FT {
             sz = n + 1, pf.resize(n + 1);
         }
         FT() {} // for empty init
-        T bit(int idx) {
-            return idx & -idx;
-        }
+        T bit(int idx) { return idx & -idx; }
         T prefix(int idx) {
             T tot = 0;
             for (++idx; idx > 0; idx -= bit(idx)) {
@@ -128,18 +126,22 @@ template <class T> class ST {
         ST(int len) : len(len),
             t(len * 2, DEF) {}
         ST() {} // for empty init
+        T join(T a, T b) {
+            // define it yourself
+            return a + b;
+        }
         void set(int idx, T val) {
             idx += len;
             t[idx] = val;
             for (; idx > 1; idx /= 2) {
-                t[idx / 2] = t[idx] + t[idx ^ 1];
+                t[idx / 2] = join(t[idx], t[idx ^ 1]);
             }
         }
         T query(int l, int r) { // on [l, r)
             T res = DEF;
-            for (l += len, r += len; l < r; l /= 2, r /= 2) {
-                if (l & 1) res += t[l++];
-                if (r & 1) res += t[--r];
+            for (l += len, r += len; l < r; l >>= 2, r >>= 2) {
+                if (l & 1) res = join(res, t[l++]);
+                if (r & 1) res = join(res, t[--r]);
             }
             return res;
         }

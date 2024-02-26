@@ -58,6 +58,19 @@ int main() {
 	cout << (res * expo(c, n - itvs.back().s)) % MOD << '\n';
 }
 /**
+ * Let dp[i][j] to be the # of valid sequences up to restriction
+ * i, with j being the value of h_i. Also, let u be the gap between
+ * the two intervals, and v be the length of our current interval.
+ * 
+ * There are 3 cases in our DP.
+ * Case 1: max(v) [1, h_i) < v_h_i - 1. Then, dp[i][j] += dp[i][j - 1].
+ * Case 2: max(v) [1, a_i] = v_h_i - 1. Then, dp[i][j] += dp[i - 1][j - 1]
+ * multiplied by (j - 1) ^ (u + v).
+ * Case 3: max(v) (a_i, h_i) = v_h_i - 1, max(v) [1, a_i] < v_h_i - 1.
+ * Then, dp[i][j] += prefix sum of dp[i - 1][j - 2] * (gaps with 1+ v_h_i - 1)
+ * multiplied by the free choices in our (a_i, h_i) interval.
+*/
+/**
  * Key Problem Notes:
  * 1. Q and C are relatively small, while N is huge.
  * 2. **h_i is the FIRST index where a_i < h_i!!!**
@@ -82,16 +95,4 @@ int main() {
  * 
  * This is obviously a DP task. We only need to care about
  * the restriction intervals, and the gaps between in our dp.
- * 
- * Let dp[i][j] to be the # of valid sequences up to restriction
- * i, with j being the value of h_i. Also, let u be the gap between
- * the two intervals, and v be the length of our current interval.
- * 
- * There are 3 cases in our DP.
- * Case 1: max(v) [1, h_i) < v_h_i - 1. Then, dp[i][j] += dp[i][j - 1].
- * Case 2: max(v) [1, a_i] = v_h_i - 1. Then, dp[i][j] += dp[i - 1][j - 1]
- * multiplied by (j - 1) ^ (u + v).
- * Case 3: max(v) (a_i, h_i) = v_h_i - 1, max(v) [1, a_i] < v_h_i - 1.
- * Then, dp[i][j] += prefix sum of dp[i - 1][j - 2] * (gaps with 1+ v_h_i - 1)
- * multiplied by the free choices in our (a_i, h_i) interval.
 */
