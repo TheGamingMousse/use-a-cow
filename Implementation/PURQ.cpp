@@ -120,26 +120,23 @@ for sum queries.
 template <class T> class ST {
     private:
         const T DEF = 0;
-        int len;
-        vector<T> t;
+        int len; vector<T> t;
     public:
         ST(int len) : len(len),
             t(len * 2, DEF) {}
         ST() {} // for empty init
         T join(T a, T b) {
-            // define it yourself
-            return a + b;
+            return min(a, b);
         }
         void set(int idx, T val) {
-            idx += len;
-            t[idx] = val;
-            for (; idx > 1; idx /= 2) {
+            idx += len, t[idx] = val;
+            for (; idx > 1; idx >>= 1) {
                 t[idx / 2] = join(t[idx], t[idx ^ 1]);
             }
         }
-        T query(int l, int r) { // on [l, r)
+        T query(int l, int r) { // [l, r)
             T res = DEF;
-            for (l += len, r += len; l < r; l >>= 2, r >>= 2) {
+            for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) res = join(res, t[l++]);
                 if (r & 1) res = join(res, t[--r]);
             }
