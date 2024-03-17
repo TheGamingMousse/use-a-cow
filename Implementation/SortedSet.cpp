@@ -64,11 +64,6 @@ struct hsh {
 		return p.f * 239 + p.s;
 	}
 };
-struct hashPII {
-    size_t operator()(const pii &p) const {
-        return p.f * 239 + p.s; 
-    }
-};
 /**
  * For the upper two:
  * unordered_map<pii, T, hash>

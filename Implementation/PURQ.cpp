@@ -56,7 +56,6 @@ template<class T> class FT2D {
             return tot;
         }
         T query(int r1, int c1, int r2, int c2) {
-            ++r2, ++c2; // r, c 0 indexed at first
             return get(r2, c2) - get(r2, c1) - 
                 get(r1, c2) + get(r1, c1);
         }
@@ -112,10 +111,10 @@ struct SegTree {
         }
     }
 };
-/*
-Modify the function according to
-the query type. Currently is designed
-for sum queries.
+/**
+ * Modify the function according to
+ * the query type. Currently is designed
+ * for sum queries.
 */
 template <class T> class ST {
     private:

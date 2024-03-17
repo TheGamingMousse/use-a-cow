@@ -30,7 +30,7 @@ int main() {
     tour(0, 0);
     auto query = [&](int u, int d) {
         return (lower_bound(all(dep[d]), ed[u]) - 
-                lower_bound(all(dep[d]), st[u])); // change
+                lower_bound(all(dep[d]), st[u]));
     };
     int q; cin >> q;
     while (q--) {

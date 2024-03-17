@@ -18,13 +18,10 @@ template<class T> bool smin(T& a, T b) {
 template<class T> bool smax(T& a, T b) {
     return (b > a ? a = b, 1 : 0);
 }
-ll expo(ll x, ll n) {
-    x %= MOD;
-    ll res = 1;
-    while (n > 0) {
-        if (n % 2) res = res * x % MOD;
-        x = x * x % MOD;
-        n >>= 1;
+ll expo(ll x, ll n, ll m = MOD) {
+    ll res = 1; x %= m;
+    for (; n; n >>= 1, x = (x * x) % m) {
+        if (n & 1) res = (res * x) % m;
     }
     return res;
 }

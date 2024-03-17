@@ -13,7 +13,7 @@ int firstTrue(function<bool(int)> check) {
 int lastTrue(function<bool(int)> check) {
     int low = 0, high = 1e5; // arbitrary
     while (low < high) {
-        int mid = (low + high + 1) / 2;
+        int mid = low + (high - low + 1) / 2;
         if (check(mid)) low = mid;
         else high = mid - 1;
     }

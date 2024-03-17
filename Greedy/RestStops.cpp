@@ -10,8 +10,10 @@ int main() {
     freopen("reststops.out", "w", stdout);
     int l, n, f, b; cin >> l >> n >> f >> b;
     vector<pair<int, int>> stops(n);
-    for (auto& i : stops) cin >> i.s >> i.f;
-    sort(begin(stops), end(stops), greater<pair<int, int>>());
+    for (auto &[a, b] : stops) {
+        cin >> a >> b;
+    }
+    sort(begin(stops), end(stops), greater<>());
     ll ans = 0, dist = 0;
     for (const auto& i : stops) {
         if (dist < i.s) {
