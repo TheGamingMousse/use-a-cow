@@ -2,28 +2,28 @@
 using namespace std;
 typedef long long ll;
 
-template<class T> class FT {
+template<class T> class FenwickTree {
     private:
-        int sz; vector<T> pf;
+        int sz; vector<T> arr;
     public:
-        FT(int n) {
-            sz = n + 1, pf.resize(n + 1);
+        FenwickTree(int n) {
+            sz = n + 1;
+            arr.resize(n + 1);
         }
-        FT() {} // for empty init
-        T bit(int idx) { return idx & -idx; }
-        T prefix(int idx) {
+        FenwickTree() {} // empty init
+        T prefix(int idx) { // [0, idx] sum
             T tot = 0;
-            for (++idx; idx > 0; idx -= bit(idx)) {
-                tot += pf[idx];
+            for (++idx; idx >= 1; idx -= idx & -idx) {
+                tot += arr[idx];
             }
             return tot;
         }
-        T query(int l, int r) {
+        T query(int l, int r) { // [l, r] sum
             return prefix(r) - prefix(l - 1);
         }
         void update(int idx, T dx) {
-            for (++idx; idx < sz; idx += bit(idx)) {
-                pf[idx] += dx;
+            for (++idx; idx < sz; idx += idx & -idx) {
+                arr[idx] += dx;
             }
         }
 };
@@ -116,24 +116,25 @@ struct SegTree {
  * the query type. Currently is designed
  * for sum queries.
 */
-template <class T> class ST {
+template <class T> class SegmentTree {
     private:
         const T DEF = 0;
         int len; vector<T> t;
     public:
-        ST(int len) : len(len),
+        SegmentTree(int len) : len(len),
             t(len * 2, DEF) {}
-        ST() {} // for empty init
+        SegmentTree() {} // empty init
         T join(T a, T b) {
-            return min(a, b);
+            return max(a, b);
         }
         void set(int idx, T val) {
-            idx += len, t[idx] = val;
+            idx += len;
+            t[idx] = val;
             for (; idx > 1; idx >>= 1) {
                 t[idx / 2] = join(t[idx], t[idx ^ 1]);
             }
         }
-        T query(int l, int r) { // [l, r)
+        T query(int l, int r) { // queries [l, r)
             T res = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) res = join(res, t[l++]);

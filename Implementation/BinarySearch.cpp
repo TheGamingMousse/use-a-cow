@@ -1,30 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+using pii = pair<int, int>;
+#define all(x) begin(x), end(x)
+#define sz(x) (int) (x).size()
+#define f first 
+#define s second 
 
-int firstTrue(function<bool(int)> check) {
-    int low = 0, high = 1e5; // arbitrary
+template<class T> bool smin(T& a, T b) {
+    return b < a ? a = b, 1 : 0;
+}
+template<class T> bool smax(T& a, T b) {
+    return b > a ? a = b, 1 : 0;
+}
+template<typename F> 
+int firstTrue(int low, int high, F fn) {
     while (low < high) {
         int mid = low + (high - low) / 2;
-        if (check(mid)) high = mid;
-        else low = mid + 1;
+        fn(low) ? high = mid : low = mid + 1;
     }
     return low;
 }
-int lastTrue(function<bool(int)> check) {
-    int low = 0, high = 1e5; // arbitrary
+template<typename F> 
+int lastTrue(int low, int high, F fn) {
     while (low < high) {
         int mid = low + (high - low + 1) / 2;
-        if (check(mid)) low = mid;
-        else high = mid - 1;
-    }
-    return low;
-}
-double binarySearch3(function<bool(double)> check) {
-    double low = 0, high = 1e5, prec = 1e-5; // arbitrary
-    while (high - low > prec) {
-        double mid = (low + high) / 2;
-        if (check(mid)) high = mid;
-        else low = mid;
+        fn(low) ? low = mid : high = mid - 1;
     }
     return low;
 }
@@ -36,7 +37,5 @@ double binarySearch3(function<bool(double)> check) {
  * Example: {1, 1, 1, 0, 0}
  * Output: 2
  * 
- * Note: for more finnicky probs, use the 
- * bisearch detailed in "The Meeting Place
- * Cannot Be Changed".
+ * Note: Need to write a decimal binary search.
 */
