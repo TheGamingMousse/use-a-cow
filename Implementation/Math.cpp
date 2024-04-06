@@ -47,13 +47,15 @@ template<int MOD> struct MInt {
 	friend MInt operator*(MInt a, MInt b) { return a *= b; }
     friend MInt operator/(MInt a, MInt b) { return a /= b; }
 };
-template<typename T> class Combo {
-    // set MInt as the type, for obvious reasons.
+template<typename T> class Combinatorics {
+    // T = MInt<Modulo>, for obvious reasons.
     private:
         vector<T> fact, invFact;
         int ptr = 0;
     public:
-        Combo(int size) {
+        Combinatorics() {}
+        Combinatorics(int n) { reserve(n); }
+        void reserve(int size) {
             if (ptr == 0) {
                 fact.emplace_back(1);
                 invFact.emplace_back(1);
@@ -81,6 +83,7 @@ template<typename T> class Combo {
         }
         T getInv(int n) { reserve(n); return invFact[n] * fact[n - 1]; }
         T getInvFact(int n) { reserve(n); return invFact[n]; }
+        T getFact(int n) { reserve(n); return fact[n]; }
 };
 /**
  * Use the following for USACO, b/c fat template

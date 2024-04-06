@@ -17,7 +17,7 @@ template<typename F>
 int firstTrue(int low, int high, F fn) {
     while (low < high) {
         int mid = low + (high - low) / 2;
-        fn(low) ? high = mid : low = mid + 1;
+        fn(mid) ? high = mid : low = mid + 1;
     }
     return low;
 }
@@ -25,7 +25,7 @@ template<typename F>
 int lastTrue(int low, int high, F fn) {
     while (low < high) {
         int mid = low + (high - low + 1) / 2;
-        fn(low) ? low = mid : high = mid - 1;
+        fn(mid) ? low = mid : high = mid - 1;
     }
     return low;
 }
