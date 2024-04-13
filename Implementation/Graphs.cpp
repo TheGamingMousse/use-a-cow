@@ -13,9 +13,9 @@ template<class T> bool smin(T& a, T b) {
 template<class T> bool smax(T& a, T b) {
     return b > a ? a = b, 1 : 0;
 }
-struct DSU {
+struct DisjointSet {
     vector<int> e;
-    DSU(int n) { e = vector<int>(n, -1); }
+    DisjointSet(int n) { e = vector<int>(n, -1); }
     int get(int x) { 
         return e[x] < 0 ? x : e[x] = get(e[x]); 
     }

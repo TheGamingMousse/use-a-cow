@@ -6,12 +6,12 @@ typedef long long ll;
  * USACO.Guide implementation, with
  * my edits to make it look cleaner.
 */
-template<class T> class FenwickTree {
+template<typename T> class FenwickTree {
     private:
-        int sz; vector<T> arr;
+        int n; vector<T> arr;
     public:
-        FenwickTree(int n) {
-            sz = n + 1, arr.resize(n + 1);
+        FenwickTree(int _n) : n(_n + 1) {
+            arr.resize(n);
         }
         T prefix(int idx) { // [0, idx] sum
             T tot = 0;
@@ -24,7 +24,7 @@ template<class T> class FenwickTree {
             return prefix(r) - prefix(l - 1);
         }
         void update(int idx, T dx) {
-            for (++idx; idx < sz; idx += idx & -idx) {
+            for (++idx; idx < n; idx += idx & -idx) {
                 arr[idx] += dx;
             }
         }
@@ -32,8 +32,9 @@ template<class T> class FenwickTree {
 /**
  * Two dimentional Fenwick Tree. Shout out
  * to mudkip for the implementation :)
+ * (This is really scuffed... ima clean it up sometime.)
 */
-template<class T> class FT2D {
+template<typename T> class FT2D {
     private:
         int n, m;
         vector<vector<T>> arr;
@@ -70,40 +71,40 @@ template<class T> class FT2D {
  * The ai.cash segment tree, except I made 
  * it more generic... because I like templates!
 */
-template <class T> class SegmentTree {
+template <typename T> class SegmentTree {
     private:
         const T DEF = 0;
         int len; vector<T> t;
     public:
         SegmentTree(int len) : len(len),
             t(len * 2, DEF) {}
-        SegmentTree() {} // empty init
-        T join(T a, T b) {
+        SegmentTree() {}
+        T join(T a, T b) { // any arbitrary function
             return max(a, b);
         }
-        void set(int idx, T val) {
-            t[idx += len] = val;
-            for (; idx > 1; idx >>= 1) {
-                t[idx >> 1] = join(t[idx], t[idx ^ 1]);
+        void set(int idx, T val) { 
+            for (t[idx += len] = val; idx >>= 1; ) {
+                t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
             }
         }
         T query(int l, int r) { // queries [l, r)
-            T res = DEF;
+            T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
-                if (l & 1) res = join(res, t[l++]);
-                if (r & 1) res = join(res, t[--r]);
+                if (l & 1) resl = join(resl, t[l++]);
+                if (r & 1) resr = join(t[--r], resr);
             }
-            return res;
+            return join(resl, resr);
         }
         T get(int idx) {
-            return query(idx, idx + 1);
+            return t[idx + len];
         }
 };
 /**
  * A lazy segment tree. Yoinked from a certain
  * CF GM lol.
 */
-template<class T, class U> struct LazySegtree {
+template<typename T, typename U> 
+struct LazySegtree {
     static constexpr T ID = 0;
     static constexpr U LZ_ID = 0;
     int sz = 0; 
@@ -132,12 +133,9 @@ template<class T, class U> struct LazySegtree {
             t[v] = join(t[v * 2], t[v * 2 + 1]);
         }
     }
-    inline void push(int l, int r, int v) {
+    template<class F> void push(int l, int r, int v, F toChild) {
         // pushes v's lazy value to children
         int m = (l + r) >> 1;
-        auto toChild = [&](int pr, int ch, int len) -> void {
-            // DIY, pushes pr's lazy to ch's lazy.
-        };
         if (lz[v] != LZ_ID && l != r) {
             toChild(v, v * 2, m - l + 1);
             toChild(v, v * 2 + 1, r - m);
@@ -157,10 +155,7 @@ template<class T, class U> struct LazySegtree {
             t[v] = join(t[v * 2], t[v * 2 + 1]);
         }
     }
-    void update(int ql, int qr, T x) {
-        auto st = [&](int cv, int cl, int cr) -> void {
-            // apply update to cv, set lazy update at cv.
-        };
+    template<class F> void update(int ql, int qr, T x, F st) {
         upd(ql, qr, 0, sz - 1, 1, x, st);
     }
     T query(int ql, int qr, int l, int r, int v) {
@@ -181,6 +176,13 @@ template<class T, class U> struct LazySegtree {
 */
 namespace SegmentTree {
     template <typename F>
+    int forLevels(int node, int sz, bool dir, F f) {
+        while (node < sz) {
+            node = node << 1 | dir + (!dir ? f(node) : -f(node));
+        }
+        return node;
+    }
+    template <typename F> 
     void forRange(int lf, int rt, F f) {
         for (; lf < rt; lf >>= 1, rt >>= 1) {
             if (lf & 1) f(lf++);
@@ -190,24 +192,31 @@ namespace SegmentTree {
     int log2(int x) {
         return 31 - __builtin_clz(x);
     }
-    template <typename F>
+    template<typename F> 
     void forParents(int p, bool dir, F f) {
-        const auto lvls = log2(p);
-        for (auto i = 1; i <= lvls; ++i) {
+        const int lvls = log2(p);
+        for (int i = 1; i <= lvls; ++i) {
             f(p >> (!dir ? lvls - i + 1 : i));
         }
     }
-    template<class T, class U>
-    void update(int l, int r, T apply, U pull) {
-        forRange(l, r, apply);
-        forParents(l, true, pull);
-        forParents(r - 1, true, pull);
-    }
-    template<class T, class U>
-    void query(int l, int r, T push, U apply) {
-        forParents(l, false, push);
-        forParents(r - 1, false, push);
-        forRange(l, r, apply);
+    template<typename F> 
+    void forRangeOrdered(int lf, int rt, bool dir, F f) {
+        auto base = !dir ? lf - 1 : rt;
+        const int mask = (1 << log2((lf - 1) ^ rt)) - 1;
+        const int offset = !dir ? 1 : -1;
+        int node = (!dir ? -lf : rt) & mask;
+        while (node) {
+            const int bit = __builtin_ctz(node);
+            f((base >> bit) + offset);
+            node ^= 1 << bit;
+        }
+        base = dir ? lf - 1 : rt;
+        node = (dir ? -lf : rt) & mask;
+        while (node) {
+            const int bit = log2(node);
+            f((base >> bit) - offset);
+            node ^= 1 << bit;
+        }
     }
 }
 /**
