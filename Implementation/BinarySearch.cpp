@@ -29,13 +29,19 @@ int lastTrue(int low, int high, F fn) {
     }
     return low;
 }
-/**
- * binarySearch1: finding the lowest "true"
- * Example: {0, 0, 1, 1, 1}
- * Output: 2
- * binarySearch2: finding the highest "true"
- * Example: {1, 1, 1, 0, 0}
- * Output: 2
- * 
- * Note: Need to write a decimal binary search.
-*/
+template<typename F>
+double decimalFirstTrue(double low, double high, F fn) {
+    for (int i = 0; i < 30; i++) { // arbitrary
+        double mid = (low + high) / 2;
+        fn(mid) ? high = mid : low = mid;
+    }
+    return low;
+}
+template<typename F>
+double decimalLastTrue(double low, double high, F fn) {
+    for (int i = 0; i < 30; i++) { // arbitrary
+        double mid = (low + high) / 2;
+        fn(mid) ? low = mid : high = mid;
+    }
+    return low;
+}

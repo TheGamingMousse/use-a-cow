@@ -1,17 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
-using pii = pair<int, int>;
+using pii = array<int, 2>;
 #define all(x) begin(x), end(x)
 #define sz(x) (int) (x).size()
-#define f first 
-#define s second 
 
-template<class T> bool smin(T& a, T b) {
-    return b < a ? a = b, 1 : 0;
+template<class T> bool smax(T &a, T b) {
+    return a < b ? a = b, 1 : 0;
 }
-template<class T> bool smax(T& a, T b) {
-    return b > a ? a = b, 1 : 0;
+template<class T> bool smin(T &a, T b) {
+    return a > b ? a = b, 1 : 0;
 }
 struct Demo1 {
     int a, b, c;
@@ -33,12 +31,12 @@ struct cmp {
 };
 struct hsh {
 	size_t operator()(const pair<int, int> &p) const {
-		return p.f * 239 + p.s;
+		return p.first * 239 + p.second;
 	}
 };
 struct hsh {
-	size_t operator()(const pii &p) const {
-		return p.f * 239 + p.s;
+	size_t operator()(const pair<int, int> &p) const {
+		return p.first * 239 + p.second;
 	}
 };
 /**
@@ -47,8 +45,8 @@ struct hsh {
 */
 namespace std {
     template <> struct hash<pii> {
-        size_t operator()(const pii &p) const { 
-            return p.f * 239 + p.s; 
+        size_t operator()(const pair<int, int> &p) const { 
+            return p.first * 239 + p.second; 
         }
     };
 }

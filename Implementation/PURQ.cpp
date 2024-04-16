@@ -1,10 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
+using ll = long long;
+using pii = array<int, 2>;
+#define all(x) begin(x), end(x)
+#define sz(x) (int) (x).size()
 
+template<class T> bool smax(T &a, T b) {
+    return a < b ? a = b, 1 : 0;
+}
+template<class T> bool smin(T &a, T b) {
+    return a > b ? a = b, 1 : 0;
+}
 /**
  * USACO.Guide implementation, with
  * my edits to make it look cleaner.
+ * 
+ * Also, if need be, you can also made it more modular...
 */
 template<typename T> class FenwickTree {
     private:
@@ -30,20 +41,14 @@ template<typename T> class FenwickTree {
         }
 };
 /**
- * Two dimentional Fenwick Tree. Shout out
- * to mudkip for the implementation :)
- * (This is really scuffed... ima clean it up sometime.)
+ * Two dimentional Fenwick Tree.
 */
 template<typename T> class FT2D {
     private:
-        int n, m;
-        vector<vector<T>> arr;
+        int n, m; vector<vector<T>> arr;
     public:
-        FT2D(int N, int M) {
-            n = N + 1;
-            m = M + 1;
-            arr = vector<vector<T>>(N + 1, 
-                vector<T>(M + 1));
+        FT2D(int _n, int _m) : n(_n), m(_m) {
+            arr = vector(n, vector(m, (T) 0));
         }
         void update(int r, int c, T dx) {
             for (int i = r + 1; i < n; i += i & -i) {
@@ -62,9 +67,8 @@ template<typename T> class FT2D {
             return tot;
         }
         T query(int r1, int c1, int r2, int c2) {
-            return get(r2, c2) - get(r2, c1) - 
-                   get(r1, c2) + get(r1, c1);
-            // note... this might be sketch hahahaha
+            return (get(r2, c2) + get(r1 - 1, c1 - 1) -
+                    get(r1 - 1, c2) - get(r2, c1 - 1));
         }
 };
 /**
@@ -172,7 +176,7 @@ struct LazySegtree {
     }
 };
 /**
- * Brian's template... removed some methods tho.
+ * Brian's template!
 */
 namespace SegmentTree {
     template <typename F>

@@ -27,50 +27,30 @@ struct DisjointSet {
         return true;
     }
 };
-namespace SCC {
-    int n, ti, nc; // nc = # of SCCs
-    vector<int> st, num, low;
-    vector<vector<int>> adj;
-    vector<bool> vis;
-    void dfs(int u) {
-        num[u] = low[u] = ti++;
-        st.push_back(u);
-        vis[u] = true;
-        for (int v : adj[u]) {
-            if (num[v] == -1) dfs(v);
-            if (vis[v]) smin(low[u], low[v]);
-        }
-        if (low[u] == num[u]) {
-            for (int v = -1; v != u;) {
-                v = st.back(), st.pop_back();
-                low[v] = nc, vis[v] = false;
+struct SCC {
+	int N, ti = 0;
+	vector<vector<int>> adj;
+	vector<int> disc, comp, st, comps;
+	SCC(int _N) : N(_N) {
+		adj.resize(N), disc.resize(N), comp = vector<int>(N, -1);
+	}
+	void ae(int x, int y) { adj[x].push_back(y); }
+	int dfs(int x) {
+		int low = disc[x] = ++ti;
+		st.push_back(x);
+		for (int y : adj[x])
+			if (comp[y] == -1) low = min(low, disc[y] ?: dfs(y));
+		if (low == disc[x]) {
+			comps.push_back(x);
+			for (int y = -1; y != x; ) {
+                comp[y = st.back()] = x, st.pop_back();
             }
-            nc++;
-        }
-    }
-    void build(int sz) {
-        adj.resize(sz + 5), num.resize(sz + 5), 
-        low.resize(sz + 5), vis.resize(sz + 5);
-        n = sz;
-    }
-    void init() {
-        ti = nc = 0, fill(all(num), -1);
-        for (int i = 0; i < n; i++) {
-            if (num[i] == -1) dfs(i);
-        }
-    }
-    void compress() {
-        vector<array<int, 2>> edges;
-        for (int i = 0; i < n; i++) {
-            for (int j : adj[i]) if (low[i] != low[j]) {
-                edges.push_back({low[i], low[j]});
-            }
-        }
-        sort(all(edges));
-        edges.erase(unique(all(edges)), end(edges));
-        adj = vector(nc, vector<int>());
-        for (auto [u, v] : edges) {
-            adj[u].push_back(v);
-        }
-    }
+		}
+		return low;
+	}
+	void gen() {
+		for (int i = 0; i < N; i++)
+			if (!disc[i]) dfs(i);
+		reverse(begin(comps), end(comps));
+	}
 };
