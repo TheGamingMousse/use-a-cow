@@ -53,6 +53,4 @@ int main() {
  * B. dp[1][i] = most you can use, if you
  *    have ran out of cones and you've spent
  *    i moonies already.
- * (Implementation is a bit different, but 
- * uses the same ideas.)
 */

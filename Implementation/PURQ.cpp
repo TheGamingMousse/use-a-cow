@@ -77,15 +77,23 @@ template<typename T> class FT2D {
 */
 template <typename T> class SegmentTree {
     private:
-        const T DEF = 0;
+        constexpr T DEF = {0, 0};
         int len; vector<T> t;
     public:
         SegmentTree(int len) : len(len),
             t(len * 2, DEF) {}
-        SegmentTree() {}
-        T join(T a, T b) { // any arbitrary function
-            return max(a, b);
+        SegmentTree(vector<T> &arr) {
+            len = (int) arr.size();
+            t = vector<T>(len * 2, DEF);
+            for (int i = 0; i < len; i++) {
+                t[i + len] = arr[i];
+            }
+            for (int i = len - 1; i >= 1; i--) {
+                t[i] = join(t[i << 1], t[i << 1 | 1]);
+            }
         }
+        SegmentTree() {}
+        T join(T a, T b) { return max(a, b); } // any function
         void set(int idx, T val) { 
             for (t[idx += len] = val; idx >>= 1; ) {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
@@ -104,8 +112,8 @@ template <typename T> class SegmentTree {
         }
 };
 /**
- * A lazy segment tree. Yoinked from a certain
- * CF GM lol.
+ * A lazy segment tree... I just realized
+ * this doesn't exactly work for some stuff....
 */
 template<typename T, typename U> 
 struct LazySegtree {
@@ -137,8 +145,11 @@ struct LazySegtree {
             t[v] = join(t[v * 2], t[v * 2 + 1]);
         }
     }
-    template<class F> void push(int l, int r, int v, F toChild) {
+    template<class F> void push(int l, int r, int v) {
         // pushes v's lazy value to children
+        auto toChild = [&](int pr, int ch, int len) -> void {
+
+        };
         int m = (l + r) >> 1;
         if (lz[v] != LZ_ID && l != r) {
             toChild(v, v * 2, m - l + 1);
@@ -159,7 +170,10 @@ struct LazySegtree {
             t[v] = join(t[v * 2], t[v * 2 + 1]);
         }
     }
-    template<class F> void update(int ql, int qr, T x, F st) {
+    void update(int ql, int qr, T x) {
+        auto st = [&](int idx, int l, int r) -> void {
+            // write yourself
+        };
         upd(ql, qr, 0, sz - 1, 1, x, st);
     }
     T query(int ql, int qr, int l, int r, int v) {
