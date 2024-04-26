@@ -25,9 +25,10 @@ void calcSums(vector<pair<int, int>>& inst,
     }
 }
 int main() {
-    cin.tie(0) -> sync_with_stdio(false);
+    cin.tie(0) -> sync_with_stdio(0);
     int n; cin >> n;
-    pair<ll, ll> dest; cin >> dest.f >> dest.s;
+    pair<ll, ll> dest; 
+    cin >> dest.f >> dest.s;
     vector<pair<int, int>> left(n / 2);
     vector<pair<int, int>> right((n + 1) / 2);
     for (int i = 0; i < n / 2; i++) {

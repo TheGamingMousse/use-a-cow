@@ -16,7 +16,7 @@ template<class T> bool smax(T& a, T b) {
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
     int n; cin >> n;
-    vector adj(n, vector<int>());
+    vector<vector<int>> adj(n);
     for (int i = 1; i < n; i++) {
         int x, y; cin >> x >> y;
         adj[--x].push_back(--y);

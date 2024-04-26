@@ -4,10 +4,6 @@ using ll = long long;
 using pii = pair<int, int>;
 #define all(x) begin(x), end(x)
 #define sz(x) (int) (x).size()
-#define smax(a, b) a = max(a, b)
-#define smin(a, b) a = min(a, b)
-#define pb push_back
-#define ins insert
 #define f first 
 #define s second 
 
@@ -66,7 +62,7 @@ int main() {
     }
     for (int i = 2; i <= n; i++) {
         int x; cin >> x;
-        adj[x].pb(i);
+        adj[x].push_back(i);
     }
     tour(1, 0);
     sort(all(p));
@@ -81,16 +77,3 @@ int main() {
         cout << ans[i] << '\n';
     }
 }
-/**
- * Querying subtrees, so obviously
- * Euler Tour. The motivating question
- * is how to query the # of cows with
- * some proficiency greater than the starting
- * cow. 
- * 
- * Answer to motivating question:
- * First, perform the Euler Tour. Then,
- * process the answer for each cow in
- * descending order. Use a BIT. Kind
- * of like counting inversions, lol.
-*/
