@@ -15,9 +15,13 @@ template<class T> bool smax(T& a, T b) {
 }
 template<int MOD> struct MInt {
  	explicit operator int() const { return v; } 
-    int v;
-	MInt() : v(0) {}
+    int v; 
+    MInt() : v(0) {}
 	MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
+    MInt operator-() {
+        MInt res((v ? MOD - v : 0));
+        return res;
+    }
 	MInt& operator+=(MInt o) { 
 		if ((v += o.v) >= MOD) v -= MOD; 
 		return *this; 
@@ -31,7 +35,15 @@ template<int MOD> struct MInt {
         return *this; 
     }
     MInt& operator/=(MInt o) {
-        v = v * inv(o);
+        *this *= inv(o);
+        return *this;
+    }
+    MInt& operator++() {
+        *this += MInt(1);
+        return *this;
+    }
+    MInt& operator--() {
+        *this -= MInt(1);
         return *this;
     }
 	friend MInt modpow(MInt a, ll p) {
@@ -46,6 +58,13 @@ template<int MOD> struct MInt {
 	friend MInt operator-(MInt a, MInt b) { return a -= b; }
 	friend MInt operator*(MInt a, MInt b) { return a *= b; }
     friend MInt operator/(MInt a, MInt b) { return a /= b; }
+    friend ostream& operator<<(ostream& out, const MInt& n) { 
+        return out << int(n); 
+    }
+	friend istream& operator>>(istream& in, MInt& n) { 
+        ll v_; in >> v_, n = MInt(v_); 
+        return in; 
+    }
 };
 template<typename T> class Combinatorics {
     // T = MInt<Modulo>, for obvious reasons.
@@ -62,8 +81,8 @@ template<typename T> class Combinatorics {
                 ptr = 1;
             }
             if (size < ptr) continue;
-            fact = vector<T>(size + 1);
-            invFact = vector<T>(size + 1);
+            fact.resize(size + 1);
+            invFact.resize(size + 1);
             for (int i = ptr; i <= size; i++) {
                 fact[i] = fact[i - 1] * T(i);
             }

@@ -94,7 +94,7 @@ template <typename T> class SegmentTree {
         }
         SegmentTree() {}
         T join(T a, T b) { return max(a, b); } // any function
-        void set(int idx, T val) { 
+        void set(int idx, T val) {
             for (t[idx += len] = val; idx >>= 1; ) {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
             }
