@@ -14,24 +14,24 @@ template<class T> bool smax(T& a, T b) {
     return (b > a ? a = b, 1 : 0);
 }
 template<int MOD> struct MInt {
- 	explicit operator int() const { return v; } 
+    explicit operator int() const { return v; } 
     int v; 
     MInt() : v(0) {}
-	MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
+    MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
     MInt operator-() {
         MInt res((v ? MOD - v : 0));
         return res;
     }
-	MInt& operator+=(MInt o) { 
-		if ((v += o.v) >= MOD) v -= MOD; 
-		return *this; 
+    MInt& operator+=(MInt o) { 
+        if ((v += o.v) >= MOD) v -= MOD; 
+        return *this; 
     }
-	MInt& operator-=(MInt o) { 
-		if ((v -= o.v) < 0) v += MOD; 
-		return *this; 
+    MInt& operator-=(MInt o) { 
+        if ((v -= o.v) < 0) v += MOD; 
+        return *this; 
     }
-	MInt& operator*=(MInt o) { 
-		v = int((ll) v * o.v % MOD); 
+    MInt& operator*=(MInt o) { 
+        v = int((ll) v * o.v % MOD); 
         return *this; 
     }
     MInt& operator/=(MInt o) {
@@ -46,22 +46,22 @@ template<int MOD> struct MInt {
         *this -= MInt(1);
         return *this;
     }
-	friend MInt modpow(MInt a, ll p) {
+    friend MInt modpow(MInt a, ll p) {
         MInt res = 1;
         for (; p; p >>= 1, a = a * a) {
             if (p & 1) res = res * a;
         }
         return res;
     }
-	friend MInt inv(MInt a) { return modpow(a, MOD - 2); }
-	friend MInt operator+(MInt a, MInt b) { return a += b; }
-	friend MInt operator-(MInt a, MInt b) { return a -= b; }
-	friend MInt operator*(MInt a, MInt b) { return a *= b; }
+    friend MInt inv(MInt a) { return modpow(a, MOD - 2); }
+    friend MInt operator+(MInt a, MInt b) { return a += b; }
+    friend MInt operator-(MInt a, MInt b) { return a -= b; }
+    friend MInt operator*(MInt a, MInt b) { return a *= b; }
     friend MInt operator/(MInt a, MInt b) { return a /= b; }
     friend ostream& operator<<(ostream& out, const MInt& n) { 
         return out << int(n); 
     }
-	friend istream& operator>>(istream& in, MInt& n) { 
+    friend istream& operator>>(istream& in, MInt& n) { 
         ll v_; in >> v_, n = MInt(v_); 
         return in; 
     }
