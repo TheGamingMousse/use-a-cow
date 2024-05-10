@@ -70,6 +70,31 @@ template<typename T> class FT2D {
         }
 };
 /**
+ * Sparse table, RMQ.
+*/
+template<class T> struct RMQ {
+	const int n, LOG;
+	const T DEF = numeric_limits<T>::max();
+	vector<vector<T>> st;
+	T join(T a, T b) { return min(a, b); }
+	RMQ(int _n, vector<T> &v) : n(_n), LOG(__lg(n) + 1) {
+		st = vector(LOG, vector(n, DEF));
+		for (int i = 0; i < n; i++) {
+			st[0][i] = v[i];
+		}
+		for (int i = 1; i < LOG; i++) {
+			for (int j = 0; j + (1 << i) <= n; j++) {
+				st[i][j] = join(st[i - 1][j], st[i - 1][j + (1 << (i - 1))]);
+			}
+		}
+	}
+	T query(int l, int r) { // RMQ on [l, r]
+		assert(l <= r);
+		int i = __lg(r - l + 1);
+		return join(st[i][l], st[i][r - (1 << i) + 1]);
+	}
+};
+/**
  * The ai.cash segment tree, except I made 
  * it more generic... because I like templates!
 */
@@ -108,84 +133,6 @@ template <typename T> class SegmentTree {
         T get(int idx) {
             return t[idx + len];
         }
-};
-/**
- * A lazy segment tree... I just realized
- * this doesn't exactly work for some stuff....
-*/
-template<typename T, typename U> 
-struct LazySegtree {
-    static constexpr T ID = 0;
-    static constexpr U LZ_ID = 0;
-    int sz = 0; 
-    vector<T> t = vector<T>();
-    vector<U> lz = vector<U>();
-    inline T join(T a, T b) { return a + b; }
-    // join is just any arbitrary function.
-    void init(int _sz) {
-        sz = _sz;
-        t.assign(sz * 4, val);
-        lz.assign(sz * 4, LZ_ID);
-    }
-    void init(vector<T> &a) {
-        sz = a.size();
-        t.resize(sz * 4);
-        lz.assign(sz * 4, LZ_ID);
-        build(0, sz - 1, 1, a);
-    }
-    void build(int l, int r, int v, vector<T> &a) {
-        if (l == r) {
-            t[v] = a[l];
-        } else {
-            int m = (l + r) >> 1;
-            build(l, m, v * 2, a);
-            build(m + 1, r, v * 2 + 1, a);
-            t[v] = join(t[v * 2], t[v * 2 + 1]);
-        }
-    }
-    template<class F> void push(int l, int r, int v) {
-        // pushes v's lazy value to children
-        auto toChild = [&](int pr, int ch, int len) -> void {
-
-        };
-        int m = (l + r) >> 1;
-        if (lz[v] != LZ_ID && l != r) {
-            toChild(v, v * 2, m - l + 1);
-            toChild(v, v * 2 + 1, r - m);
-        }
-        lz[v] = LZ_ID;
-    }
-    template<class F> void upd(int ql, int qr, int l, int r,
-                               int v, T x, F set) {
-        if (qr < l || ql > r) return;
-        if (l >= ql && r <= qr) {
-            set(v, l, r);
-        } else {
-            push(l, r, v);
-            int m = (l + r) >> 1;
-            upd(ql, qr, l, m, v * 2, x, set);
-            upd(ql, qr, m + 1, r, v * 2 + 1, x, set);
-            t[v] = join(t[v * 2], t[v * 2 + 1]);
-        }
-    }
-    void update(int ql, int qr, T x) {
-        auto st = [&](int idx, int l, int r) -> void {
-            // write yourself
-        };
-        upd(ql, qr, 0, sz - 1, 1, x, st);
-    }
-    T query(int ql, int qr, int l, int r, int v) {
-        if (qr < l || ql > r) return ID;
-        if (l >= ql && r <= qr) return t[v];
-        push(l, r, v);
-        int m = (l + r) >> 1;
-        T lf = query(ql, qr, l, m, v * 2);
-        T rt = query(ql, qr, m + 1, r, v * 2 + 1);
-        return join(lf, rt);
-    }
-    T query(int ql, int qr) {
-        return query(ql, qr, 0, sz - 1, 1);
-    }
 };
 /**
  * Brian's template!
