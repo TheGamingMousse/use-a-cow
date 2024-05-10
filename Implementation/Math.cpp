@@ -14,10 +14,10 @@ template<class T> bool smax(T& a, T b) {
     return (b > a ? a = b, 1 : 0);
 }
 template<int MOD> struct MInt {
-    explicit operator int() const { return v; } 
     int v; 
     MInt() : v(0) {}
     MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
+    explicit operator int() const { return v; } 
     MInt operator-() {
         MInt res((v ? MOD - v : 0));
         return res;
@@ -38,14 +38,6 @@ template<int MOD> struct MInt {
         *this *= inv(o);
         return *this;
     }
-    MInt& operator++() {
-        *this += MInt(1);
-        return *this;
-    }
-    MInt& operator--() {
-        *this -= MInt(1);
-        return *this;
-    }
     friend MInt modpow(MInt a, ll p) {
         MInt res = 1;
         for (; p; p >>= 1, a = a * a) {
@@ -62,8 +54,7 @@ template<int MOD> struct MInt {
         return out << int(n); 
     }
     friend istream& operator>>(istream& in, MInt& n) { 
-        ll v_; in >> v_, n = MInt(v_); 
-        return in; 
+        ll v_; in >> v_, n = MInt(v_); return in; 
     }
 };
 template<typename T> class Combinatorics {

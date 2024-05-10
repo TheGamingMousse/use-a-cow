@@ -31,9 +31,7 @@ struct SCC {
 	int N, ti = 0;
 	vector<vector<int>> adj;
 	vector<int> disc, comp, st, comps;
-	SCC(int _N) : N(_N) {
-		adj.resize(N), disc.resize(N), comp = vector<int>(N, -1);
-	}
+	SCC(int _N) : N(_N), adj(N), disc(N), comp(N, -1) {}
 	void ae(int x, int y) { adj[x].push_back(y); }
 	int dfs(int x) {
 		int low = disc[x] = ++ti;

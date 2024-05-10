@@ -21,9 +21,7 @@ template<typename T> class FenwickTree {
     private:
         int n; vector<T> arr;
     public:
-        FenwickTree(int _n) : n(_n + 1) {
-            arr.resize(n);
-        }
+        FenwickTree(int _n) : n(_n + 1), arr(n) {}
         T prefix(int idx) { // [0, idx] sum
             T tot = 0;
             for (++idx; idx >= 1; idx -= idx & -idx) {
@@ -201,10 +199,10 @@ namespace SegmentTree {
         return node;
     }
     template <typename F> 
-    void forRange(int lf, int rt, F f) {
-        for (; lf < rt; lf >>= 1, rt >>= 1) {
-            if (lf & 1) f(lf++);
-            if (rt & 1) f(--rt);
+    void forRange(int node_1, int node_2, F f) {
+        for (; node_1 < node_2; node_1 >>= 1, node_2 >>= 1) {
+            if (node_1 & 1) f(node_1++);
+            if (node_2 & 1) f(--node_2);
         }
     } 
     int log2(int x) {
@@ -218,18 +216,18 @@ namespace SegmentTree {
         }
     }
     template<typename F> 
-    void forRangeOrdered(int lf, int rt, bool dir, F f) {
-        auto base = !dir ? lf - 1 : rt;
-        const int mask = (1 << log2((lf - 1) ^ rt)) - 1;
+    void forRangeOrdered(int node_1, int node_2, bool dir, F f) {
+        int base = !dir ? node_1 - 1 : node_2;
+        const int mask = (1 << log2((node_1 - 1) ^ node_2)) - 1;
         const int offset = !dir ? 1 : -1;
-        int node = (!dir ? -lf : rt) & mask;
+        int node = (!dir ? -node_1 : node_2) & mask;
         while (node) {
             const int bit = __builtin_ctz(node);
             f((base >> bit) + offset);
             node ^= 1 << bit;
         }
-        base = dir ? lf - 1 : rt;
-        node = (dir ? -lf : rt) & mask;
+        base = dir ? node_1 - 1 : node_2;
+        node = (dir ? -node_1 : node_2) & mask;
         while (node) {
             const int bit = log2(node);
             f((base >> bit) - offset);
