@@ -51,4 +51,8 @@ namespace LCA {
         }
         return up[0][u];
     }
+    int dist(int u, int v, int anc = -1) {
+        if (anc == -1) anc = lca(u, v);
+        return depth[u] + depth[v] - 2 * depth[anc];
+    }
 };

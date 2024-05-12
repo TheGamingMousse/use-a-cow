@@ -19,8 +19,7 @@ template<int MOD> struct MInt {
     MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
     explicit operator int() const { return v; } 
     MInt operator-() {
-        MInt res((v ? MOD - v : 0));
-        return res;
+        return MInt(-v);
     }
     MInt& operator+=(MInt o) { 
         if ((v += o.v) >= MOD) v -= MOD; 
@@ -41,7 +40,7 @@ template<int MOD> struct MInt {
     friend MInt modpow(MInt a, ll p) {
         MInt res = 1;
         for (; p; p >>= 1, a = a * a) {
-            if (p & 1) res = res * a;
+            if (p & 1) res *= a;
         }
         return res;
     }
@@ -105,7 +104,7 @@ ll fact[N], invFact[N];
 ll expo(ll x, ll n, ll m = MOD) {
     ll res = 1; x %= m;
     for (; n; n >>= 1, x = (x * x) % m) {
-        if (n & 1) res = (res * x) % m;
+        if (n & 1) (res *= x) %= m;
     }
     return res;
 }
