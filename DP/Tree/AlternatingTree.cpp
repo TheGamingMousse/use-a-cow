@@ -13,7 +13,7 @@ template<class T> bool smin(T& a, T b) {
 template<class T> bool smax(T& a, T b) {
     return b > a ? a = b, 1 : 0;
 }
-const int MOD = 1e9 + 7;
+constexpr int MOD = 1e9 + 7;
 void solve() {
     int n; cin >> n;
     vector<int> val(n);
