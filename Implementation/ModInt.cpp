@@ -27,7 +27,7 @@ template<int MOD> struct MInt {
     }
     friend MInt modpow(MInt a, ll p) {
         MInt res = 1;
-        for (; p; p >>= 1, a = a * a) {
+        for (; p; p >>= 1, a *= a) {
             if (p & 1) res *= a;
         }
         return res;
