@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/**
+ * Stolen from Brian. It should work.
+*/
 template<typename T> class Combinatorics {
     // T = MInt<Modulo>, for obvious reasons.
     private:

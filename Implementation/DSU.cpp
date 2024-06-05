@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/**
+ * Verified with Yosupo.
+*/
 struct DisjointSet {
     vector<int> e;
     DisjointSet(int n) { e = vector<int>(n, -1); }

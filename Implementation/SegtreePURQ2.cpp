@@ -1,14 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template<typename T> class SegmentTree {
+/**
+ * Verified with CSES (Dynamic RMQ)
+ * Define a join function, and then your declaration
+ * would be something like:
+ * 
+ * SegmentTree<T, DEF_VAL, decltype(join)> segtree(arr, join)
+*/
+template<class T, T DEF, class F> class SegmentTree {
     private:
-        constexpr T DEF = {0, 0}; // change depending on T
-        int len; vector<T> t;
+        int len; F join; vector<T> t; 
     public:
-        SegmentTree(int len) : len(len),
-            t(len * 2, DEF) {}
-        SegmentTree(vector<T> &arr) {
+        SegmentTree() {}
+        SegmentTree(vector<T> &arr, F fn) : join(fn) {
             len = (int) arr.size();
             t = vector<T>(len * 2, DEF);
             for (int i = 0; i < len; i++) {
@@ -18,8 +23,6 @@ template<typename T> class SegmentTree {
                 t[i] = join(t[i << 1], t[i << 1 | 1]);
             }
         }
-        SegmentTree() {}
-        T join(T a, T b) { return max(a, b); } // any function
         void set(int idx, T val) {
             for (t[idx += len] = val; idx >>= 1; ) {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);

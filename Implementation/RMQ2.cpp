@@ -32,6 +32,7 @@ template<typename T> struct RMQ {
             }
         }
 	}
+	/** @return minimum on [l, r] */
 	T query(int l, int r) {
 		if (r - l + 1 <= b) return v[small(r, r - l + 1)];
 		int ans = op(small(l + b - 1), small(r));

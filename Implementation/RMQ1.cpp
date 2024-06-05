@@ -17,7 +17,8 @@ template<class T> struct RMQ {
             }
         }
     }
-    T query(int l, int r) { // RMQ on [l, r]
+    /** @return minimum on [l, r] */
+    T query(int l, int r) {
         int i = lvl(r - l + 1);
         return min(st[i][l], st[i][r - (1 << i) + 1]);
     }
