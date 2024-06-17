@@ -24,7 +24,7 @@ int lastTrue(int low, int high, F fn) {
 }
 template<typename F>
 double decimalFirstTrue(double low, double high, F fn) {
-    for (int i = 0; i < 60; i++) { // arbitrary
+    for (int i = 0; i < 200; i++) {
         double mid = (low + high) / 2;
         fn(mid) ? high = mid : low = mid;
     }
@@ -32,7 +32,7 @@ double decimalFirstTrue(double low, double high, F fn) {
 }
 template<typename F>
 double decimalLastTrue(double low, double high, F fn) {
-    for (int i = 0; i < 60; i++) { // arbitrary
+    for (int i = 0; i < 200; i++) {
         double mid = (low + high) / 2;
         fn(mid) ? low = mid : high = mid;
     }
