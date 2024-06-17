@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/**
- * Do IO::init() at the start
- * To read in #s, do IO::read_int()
- * To output #s, do IO::write_int()
-*/
+// call IO::init() at the start, and call
+// IO::_flush_output() at the end.
 namespace IO {
     const int BUFFER_SIZE = 1 << 15;
  
@@ -46,16 +43,15 @@ namespace IO {
         bool negative = false;
         number = 0;
  
-        while (!isdigit(next_char(false)))
-            if (next_char() == '-')
-                negative = true;
- 
+        while (!isdigit(next_char(false))) {
+            if (next_char() == '-') { negative = true; }
+        }
+
         do {
             number = 10 * number + (next_char() - '0');
         } while (isdigit(next_char(false)));
  
-        if (negative)
-            number = -number;
+        if (negative) { number = -number; }
     }
  
     template<typename T, typename... Args> 
@@ -70,9 +66,7 @@ namespace IO {
     }
  
     inline void write_char(char c) {
-        if (output_pos == BUFFER_SIZE)
-            _flush_output();
- 
+        if (output_pos == BUFFER_SIZE) { _flush_output(); }
         output_buffer[output_pos++] = c;
     }
 
@@ -88,7 +82,7 @@ namespace IO {
             write_char('-');
             number = -number;
         }
- 
+
         int length = 0;
  
         while (number >= 10) {
@@ -98,18 +92,18 @@ namespace IO {
             number_buffer[length++] = (lookup_value >> 4) + '0';
         }
  
-        if (number != 0 || length == 0)
+        if (number != 0 || length == 0) { 
             write_char(number + '0');
+        }
  
-        for (int i = length - 1; i >= 0; i--)
+        for (int i = length - 1; i >= 0; i--) {
             write_char(number_buffer[i]);
+        }
  
-        if (after)
-            write_char(after);
+        if (after) { write_char(after); }
     }
  
     void init() {
-        // Make sure _flush_output() is called at the end of the program.
         bool exit_success = atexit(_flush_output) == 0;
         assert(exit_success);
  
