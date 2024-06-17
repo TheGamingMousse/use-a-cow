@@ -21,18 +21,26 @@ namespace IO {
     void _update_input_buffer() {
         input_len = fread(input_buffer, sizeof(char), BUFFER_SIZE, stdin);
         input_pos = 0;
- 
-        if (input_len == 0)
-            input_buffer[0] = EOF;
+        if (input_len == 0) { input_buffer[0] = EOF; }
     }
  
     inline char next_char(bool advance = true) {
-        if (input_pos >= input_len)
-            _update_input_buffer();
- 
+        if (input_pos >= input_len) { _update_input_buffer(); }
         return input_buffer[advance ? input_pos++ : input_pos];
     }
- 
+    
+    inline void read_char(char &val) {
+        while (!isalpha(val = next_char()));
+    }
+
+    inline void read_string(string &val) {
+        char ch;
+        read_char(ch);
+        do {
+            val.push_back(ch);
+        } while (isalpha(ch = next_char()));
+    }
+
     template<typename T> 
     inline void read_int(T &number) {
         bool negative = false;
@@ -66,6 +74,12 @@ namespace IO {
             _flush_output();
  
         output_buffer[output_pos++] = c;
+    }
+
+    inline void write_string(string &val) {
+        for (char i : val) {
+            write_char(i);
+        }
     }
  
     template<typename T>
