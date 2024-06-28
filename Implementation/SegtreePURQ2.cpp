@@ -6,15 +6,15 @@ using namespace std;
  * Define a join function, and then your declaration
  * would be something like:
  * 
- * SegmentTree<T, DEF_VAL, decltype(join)> segtree(arr, join)
+ * SegmentTree st(arr, join, def)
 */
-template<class T, T DEF, class F> class SegmentTree {
+template<class T, class F> class SegmentTree {
     private:
-        int len; F join; vector<T> t; 
+        int len; F join; vector<T> t; T DEF;
     public:
         SegmentTree() {}
-        SegmentTree(vector<T> &arr, F fn) : join(fn) {
-            len = (int) arr.size();
+        SegmentTree(const vector<T> &arr, T val, F fn) 
+            : len((int) arr.size()), DEF(val), join(fn) {
             t = vector<T>(len * 2, DEF);
             for (int i = 0; i < len; i++) {
                 t[i + len] = arr[i];
@@ -37,6 +37,7 @@ template<class T, T DEF, class F> class SegmentTree {
             }
             return join(resl, resr);
         }
+        /** @return value at location idx */
         T get(int idx) {
             return t[idx + len];
         }

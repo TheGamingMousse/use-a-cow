@@ -34,6 +34,7 @@ template<typename T> class SegmentTree {
             }
             return join(resl, resr);
         }
+        /** @return value at position idx */
         T get(int idx) {
             return t[idx + len];
         }

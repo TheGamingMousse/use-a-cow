@@ -10,11 +10,11 @@ template<int MOD> struct MInt {
         return MInt(-v);
     }
     MInt& operator+=(MInt o) { 
-        if ((v += o.v) >= MOD) v -= MOD; 
+        if ((v += o.v) >= MOD) { v -= MOD; }
         return *this; 
     }
     MInt& operator-=(MInt o) { 
-        if ((v -= o.v) < 0) v += MOD; 
+        if ((v -= o.v) < 0) { v += MOD; }
         return *this; 
     }
     MInt& operator*=(MInt o) { 
@@ -37,10 +37,10 @@ template<int MOD> struct MInt {
     friend MInt operator-(MInt a, MInt b) { return a -= b; }
     friend MInt operator*(MInt a, MInt b) { return a *= b; }
     friend MInt operator/(MInt a, MInt b) { return a /= b; }
-    friend ostream& operator<<(ostream& out, const MInt& n) { 
+    friend ostream& operator<<(ostream &out, const MInt &n) { 
         return out << int(n); 
     }
-    friend istream& operator>>(istream& in, MInt& n) { 
+    friend istream& operator>>(istream &in, MInt &n) { 
         ll _v; in >> _v, n = MInt(_v); return in; 
     }
 };
