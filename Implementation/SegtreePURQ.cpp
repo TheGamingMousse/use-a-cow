@@ -26,7 +26,7 @@ template<typename T> class SegmentTree {
             }
         }
         /** @return query on [l, r) */
-        T query(int l, int r) {
+        T qry(int l, int r) {
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) resl = join(resl, t[l++]);

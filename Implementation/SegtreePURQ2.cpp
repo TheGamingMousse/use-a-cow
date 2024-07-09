@@ -10,11 +10,11 @@ using namespace std;
 */
 template<class T, class F> class SegmentTree {
     private:
-        int len; F join; vector<T> t; T DEF;
+        int len; F join; T DEF; vector<T> t; 
     public:
         SegmentTree() {}
         SegmentTree(const vector<T> &arr, T val, F fn) 
-            : len((int) arr.size()), DEF(val), join(fn) {
+            : len((int) arr.size()), join(fn), DEF(val) {
             t = vector<T>(len * 2, DEF);
             for (int i = 0; i < len; i++) {
                 t[i + len] = arr[i];
@@ -29,7 +29,7 @@ template<class T, class F> class SegmentTree {
             }
         }
         /** @return query on [l, r) */
-        T query(int l, int r) {
+        T qry(int l, int r) {
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) resl = join(resl, t[l++]);

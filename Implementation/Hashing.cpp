@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/**
+ * This hash is for unordered maps.... probably wouldn't use it
+ * most of the time TBH, but it could help for cheesing!
+ */
 struct chash {
 	const uint64_t C = uint64_t(2e18 * 3.1415927) + 71;
 	const uint32_t R = chrono::steady_clock::now().time_since_epoch().count();
@@ -8,6 +12,10 @@ struct chash {
 		return __builtin_bswap64((x ^ R) * C);
 	}
 };
+
+/**
+ * String hashing... stores the hashes for each substring.
+ */
 class HashedString {
   private:
 	static const long long M = 1e9 + 9;

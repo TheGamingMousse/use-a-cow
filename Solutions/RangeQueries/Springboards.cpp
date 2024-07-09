@@ -24,7 +24,7 @@ template <typename T> class SegmentTree {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
             }
         }
-        T query(int l, int r) { // queries [l, r)
+        T qry(int l, int r) { // queries [l, r)
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) resl = join(resl, t[l++]);
@@ -59,12 +59,12 @@ void solve() {
     vector<int> res(p);
     for (auto [x, y, idx, type] : eoi) {
         if (type == 0) {
-            res[idx] = x + y + rmq.query(0, yIdx(y) + 1);
+            res[idx] = x + y + rmq.qry(0, yIdx(y) + 1);
         } else if (res[idx] - x - y < rmq.get(yIdx(y))) {
             rmq.set(yIdx(y), res[idx] - x - y);
         }
     }
-    cout << rmq.query(0, 2 * p) + 2 * n << "\n";
+    cout << rmq.qry(0, 2 * p) + 2 * n << "\n";
 }
 int main() {
     cin.tie(0) -> sync_with_stdio(0);

@@ -36,7 +36,7 @@ template <typename T> class SegmentTree {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
             }
         }
-        T query(int l, int r) { // queries [l, r)
+        T qry(int l, int r) { // queries [l, r)
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) resl = join(resl, t[l++]);
@@ -45,7 +45,7 @@ template <typename T> class SegmentTree {
             return join(resl, resr);
         }
         T get(int idx) {
-            return query(idx, idx + 1);
+            return qry(idx, idx + 1);
         }
 };
 void solve() {
@@ -65,7 +65,7 @@ void solve() {
     auto qry = [&]() -> void {
         int k, x; cin >> k >> x;
         segtree.set(--k, init(x));
-        array<ll, 7> res = segtree.query(0, n);
+        array<ll, 7> res = segtree.qry(0, n);
         cout << res[4] << "\n";
     };
     while (q--) { qry(); }

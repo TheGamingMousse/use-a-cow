@@ -33,7 +33,7 @@ template <class T> class SegmentTree {
                 t[idx / 2] = join(t[idx], t[idx ^ 1]);
             }
         }
-        T query(int l, int r) { // queries [l, r)
+        T qry(int l, int r) { // queries [l, r)
             T res = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) res = join(res, t[l++]);
@@ -42,7 +42,7 @@ template <class T> class SegmentTree {
             return res;
         }
         T get(int idx) {
-            return query(idx, idx + 1);
+            return qry(idx, idx + 1);
         }
 };
 int main() {
@@ -59,7 +59,7 @@ int main() {
         int idx = lower_bound(begin(a) + i + 1, end(a),
                   array<int, 2>{a[i][1], -1}) - begin(a);
         if (idx < n) {
-            auto res = st.query(idx, n);
+            auto res = st.qry(idx, n);
             res[0] -= a[i][1], res[0] += a[i][0];
             st.set(i, res);
         } else {
@@ -73,7 +73,7 @@ int main() {
         }
         mn = min(mn, a[i][1]);
     }
-    cout << st.query(0, n)[1] << "\n";
+    cout << st.qry(0, n)[1] << "\n";
 }
 /**
  * TASK: E. Culture Code (CF)

@@ -18,7 +18,7 @@ template<typename T> class Combinatorics {
                 invFact.emplace_back(1);
                 ptr = 1;
             }
-            if (size < ptr) continue;
+            if (size < ptr) return;
             fact.resize(size + 1);
             invFact.resize(size + 1);
             for (int i = ptr; i <= size; i++) {

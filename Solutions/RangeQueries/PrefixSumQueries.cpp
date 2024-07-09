@@ -37,7 +37,7 @@ template <typename T> class SegmentTree {
                 t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
             }
         }
-        T query(int l, int r) { // queries [l, r)
+        T qry(int l, int r) { // queries [l, r)
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
                 if (l & 1) resl = join(resl, t[l++]);
@@ -62,7 +62,7 @@ void solve() {
         if (t == 1) {
             st.set(--x, {y, y});
         } else {
-            cout << st.query(--x, y)[1] << "\n";
+            cout << st.qry(--x, y)[1] << "\n";
         }
     }
 }
