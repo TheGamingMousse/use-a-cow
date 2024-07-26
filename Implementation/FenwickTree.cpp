@@ -9,7 +9,7 @@ template<typename T> class FenwickTree {
     /** @return sum on [0, idx] */
     T pre(int idx) {
         T tot = 0;
-        for (++idx; idx >= 1; idx -= idx & -idx) {
+        for (++idx; idx > 0; idx -= idx & -idx) {
             tot += arr[idx];
         }
         return tot;

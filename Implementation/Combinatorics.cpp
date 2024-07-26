@@ -5,7 +5,6 @@ using namespace std;
  * Stolen from Brian. It should work.
 */
 template<typename T> class Combinatorics {
-    // T = MInt<Modulo>, for obvious reasons.
     private:
         vector<T> fact, invFact;
         int ptr = 0;
@@ -18,7 +17,7 @@ template<typename T> class Combinatorics {
                 invFact.emplace_back(1);
                 ptr = 1;
             }
-            if (size < ptr) return;
+            if (size < ptr) { return; }
             fact.resize(size + 1);
             invFact.resize(size + 1);
             for (int i = ptr; i <= size; i++) {
@@ -31,11 +30,13 @@ template<typename T> class Combinatorics {
             ptr = size + 1;
         }
         T combine(int n, int k) { 
-            assert(n >= k), reserve(n);
+            if (k > n || k < 0) { return 0; }
+            reserve(n);
             return fact[n] * invFact[k] * invFact[n - k]; 
         }
         T permute(int n, int k) { 
-            assert(n >= k), reserve(n); 
+            if (k > n || k < 0) { return 0; }
+            reserve(n);
             return fact[n] * invFact[n - k];
         }
         T getInv(int n) { reserve(n); return invFact[n] * fact[n - 1]; }

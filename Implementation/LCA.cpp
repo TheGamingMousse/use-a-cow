@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "RMQ1.cpp"
+#include "RMQ2.cpp"
 
 class LCA {
   private:

@@ -1,6 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/**
+ * Solves the equation ax + by = gcd(a, b).
+ * Returns {gcd(a, b), x, y}.
+ */
+template<class T> array<T, 3> extendedGCD(T m, T n) {
+    T a = 1, a_in = 0, b = 0, b_in = 1;
+    while (n) {
+        const T q = m / n;
+        a_in = exchange(a, a_in) - q * a_in;
+        b_in = exchange(b, b_in) - q * b_in;
+        n = exchange(m, n) - q * n;
+    }
+    return array<T, 3>({m, a, b});
+}
 template<int MOD> struct MInt {
     int v; 
     MInt() : v(0) {}
@@ -22,7 +36,7 @@ template<int MOD> struct MInt {
         return *this; 
     }
     MInt& operator/=(MInt o) {
-        *this *= inv(o);
+        *this *= MInt(extendedGCD(o.v, MOD)[1]);
         return *this;
     }
     friend MInt modpow(MInt a, ll p) {
@@ -41,6 +55,6 @@ template<int MOD> struct MInt {
         return out << int(n); 
     }
     friend istream& operator>>(istream &in, MInt &n) { 
-        ll _v; in >> _v, n = MInt(_v); return in; 
+        long long _v; in >> _v, n = MInt(_v); return in; 
     }
 };
