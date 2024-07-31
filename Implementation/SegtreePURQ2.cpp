@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 /**
  * Verified with CSES (Dynamic RMQ)
@@ -19,7 +20,7 @@ template<class T, class F> class SegmentTree {
             for (int i = 0; i < len; i++) {
                 t[i + len] = arr[i];
             }
-            for (int i = len - 1; i >= 1; i--) {
+            for (int i = len - 1; i > 0; i--) {
                 t[i] = join(t[i << 1], t[i << 1 | 1]);
             }
         }
@@ -30,12 +31,12 @@ template<class T, class F> class SegmentTree {
         }
         /** @return query on [l, r) */
         T qry(int l, int r) {
-            T resl = DEF, resr = DEF;
+            T res_l = DEF, res_r = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
-                if (l & 1) resl = join(resl, t[l++]);
-                if (r & 1) resr = join(t[--r], resr);
+                if (l & 1) { res_l = join(res_l, t[l++]); }
+                if (r & 1) { res_r = join(t[--r], res_r); }
             }
-            return join(resl, resr);
+            return join(res_l, res_r);
         }
         /** @return value at location idx */
         T get(int idx) {

@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 template<typename T> struct RMQ {
 	vector<T> v; int n;

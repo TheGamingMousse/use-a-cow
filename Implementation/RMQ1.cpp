@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 template <class T, class F> struct SparseTable {
     int n; F join;
@@ -18,7 +19,6 @@ template <class T, class F> struct SparseTable {
     }
     /** @return query on range [l, r] */
     T qry(int l, int r) const {
-        assert(0 <= l && l <= r && r < n);
         int lg = __lg(r - l + 1);
         return join(st[lg][l], st[lg][r - (1 << lg) + 1]);
     }

@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 template<typename T> class SegmentTree {
     private:
@@ -29,8 +30,8 @@ template<typename T> class SegmentTree {
         T qry(int l, int r) {
             T resl = DEF, resr = DEF;
             for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
-                if (l & 1) resl = join(resl, t[l++]);
-                if (r & 1) resr = join(t[--r], resr);
+                if (l & 1) { resl = join(resl, t[l++]); }
+                if (r & 1) { resr = join(t[--r], resr); }
             }
             return join(resl, resr);
         }

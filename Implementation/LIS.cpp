@@ -1,12 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 template<class T> int lis(vector<T> &a) {
-    vector<int> dp;
+    vector<T> dp;
 	for (T i : a) {
-		int pos = lower_bound(begin(dp), end(dp), i) - dp.begin();
+		int pos = lower_bound(begin(dp), end(dp), i) - begin(dp);
         if (pos == dp.size()) { dp.push_back(i); } 
         else { dp[pos] = i; }
 	}
-	return dp.size();
+	return (int) dp.size();
 }
