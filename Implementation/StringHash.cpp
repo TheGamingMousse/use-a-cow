@@ -8,30 +8,35 @@ using ll = long long;
  * Failure Probability: O(|S||H|^2 / M)
  */
 class HashedString {
-  private:
-	static const ll M = 1e9 + 9;
+  public:
+	static const ll M = (1ll << 61) - 1;
 	static const ll B;
-    
-	static vector<ll> pow;   // pow[i] = B^i % M
-	vector<ll> p_hash;       // p_hash[i] = hash of first i chars
+	static __int128 mul(ll a, ll b) { return (__int128)a * b; }
+	static ll mod_mul(ll a, ll b) { return mul(a, b) % M; }
+
+  private:
+	static vector<ll> pow; // pow[i] = P^i % M
+	vector<ll> p_hash;     // p_hash[i] = hash of first i characters in string
 
   public:
-	HashedString(const string &s) : p_hash(1 + (int) s.size()) {
-		while (pow.size() <= s.size()) { 
-            pow.push_back((pow.back() * B) % M); 
-        }
+    HashedString() {}
+	HashedString(const string &s) : p_hash(s.size() + 1) {
+		while (pow.size() < s.size()) { pow.push_back(mod_mul(pow.back(), B)); }
 		p_hash[0] = 0;
 		for (int i = 0; i < (int) s.size(); i++) {
-			p_hash[i + 1] = ((p_hash[i] * B) % M + s[i]) % M;
+			p_hash[i + 1] = (mul(p_hash[i], B) + s[i]) % M;
 		}
 	}
-    /** @return hash of substring [start, end] */
-	ll get_hash(int start, int end) {
-		ll raw_val =
-		    (p_hash[end + 1] - (p_hash[start] * pow[end - start + 1]));
-		return (raw_val % M + M) % M;
+
+	/** @return length of the string */
+	int size() { return (int) p_hash.size() - 1; }
+
+	/** @return hash of the substring [l, r] */
+	ll get_hash(int l, int r) {
+		ll res = p_hash[r + 1] - mod_mul(p_hash[l], pow[r - l + 1]);
+		return (res + M) % M;
 	}
-}; 
-vector<ll> HashedString::pow = {1};
+};
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+vector<ll> HashedString::pow = {1};
 const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);
