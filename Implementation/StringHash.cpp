@@ -6,6 +6,9 @@ using ll = long long;
  * String hashing... stores the hashes for every prefix.
  * Build: O(n), Query: O(1).
  * Failure Probability: O(|S||H|^2 / M)
+ * 
+ * Note: If this is too slow, switch to the usaco.guide version
+ * that doesn't use int128 but still uses randomized bases.
  */
 class HashedString {
   public:
@@ -36,7 +39,16 @@ class HashedString {
 		ll res = p_hash[r + 1] - mod_mul(p_hash[l], pow[r - l + 1]);
 		return (res + M) % M;
 	}
+
+	/** @return len of LCP, starting from st_1 and st_2 for each str */
+    int lcp(HashedString &other, int st_1 = 0, int st_2 = 0) {
+        int lo = -1, hi = min(size() - st_1, other.size() - st_2);
+        while (lo < hi) {
+            int mi = (lo + hi + 1) / 2;
+            ll pf_1 = get_hash(st_1, st_1 + mi);
+            ll pf_2 = other.get_hash(st_2, st_2 + mi);
+            (pf_1 == pf_2) ? lo = mi : hi = mi - 1;
+        }
+        return lo + 1;
+    }
 };
-mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
-vector<ll> HashedString::pow = {1};
-const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);

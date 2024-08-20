@@ -18,8 +18,8 @@ template<class T> array<T, 3> extendedGCD(T m, T n) {
 }
 template<int MOD> struct MInt {
     int v; 
-    MInt() : v(0) {}
-    MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
+    constexpr MInt() : v(0) {}
+    constexpr MInt(ll _v) : v (int(_v % MOD)) { v += (v < 0) * MOD; }
     explicit operator int() const { return v; } 
     MInt operator-() {
         return MInt(-v);
@@ -37,7 +37,7 @@ template<int MOD> struct MInt {
         return *this; 
     }
     MInt& operator/=(MInt o) {
-        *this *= MInt(extendedGCD(o.v, MOD)[1]);
+        *this *= inv(o);
         return *this;
     }
     friend MInt modpow(MInt a, ll p) {
@@ -47,11 +47,13 @@ template<int MOD> struct MInt {
         }
         return res;
     }
-    friend MInt inv(MInt a) { return modpow(a, MOD - 2); }
+    friend MInt inv(MInt o) { return MInt(extendedGCD(o.v, MOD)[1]); }
     friend MInt operator+(MInt a, MInt b) { return a += b; }
     friend MInt operator-(MInt a, MInt b) { return a -= b; }
     friend MInt operator*(MInt a, MInt b) { return a *= b; }
     friend MInt operator/(MInt a, MInt b) { return a /= b; }
+    friend bool operator==(MInt a, MInt b) { return a.v == b.v; }
+    friend bool operator!=(MInt a, MInt b) { return a.v != b.v; }
     friend ostream& operator<<(ostream &out, const MInt &n) { 
         return out << int(n); 
     }
