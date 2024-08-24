@@ -2,7 +2,7 @@
 using namespace std;
 using ll = long long;
 
-template<class T> int lis(vector<T> &a) {
+template<class T> int lis(const vector<T> &a) {
     vector<T> dp;
 	for (T i : a) {
 		int pos = lower_bound(begin(dp), end(dp), i) - begin(dp);

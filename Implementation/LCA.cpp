@@ -2,18 +2,16 @@
 using namespace std;
 using ll = long long;
 
-#include "RMQ2.cpp"
+#include "RMQ1.cpp"
 
-class LCA {
-  private:
+struct LCA {
     const int n;
     const vector<vector<int>> &adj;
-    RMQ<array<int, 2>> rmq;
     vector<int> tin, et, dep;
+    RMQ<array<int, 2>> rmq;
     int timer = 0;
     void dfs(int u, int p) {
-        tin[u] = timer;
-        et[timer++] = u;
+        tin[u] = timer, et[timer++] = u;
         for (int v : adj[u]) {
             if (v == p) continue;
             dep[v] = dep[u] + 1;
@@ -21,8 +19,6 @@ class LCA {
             et[timer++] = u;
         }
     }
-
-  public:
     LCA(int _n, vector<vector<int>> &_adj) 
         : n(_n), adj(_adj), tin(n), et(2 * n), dep(n) {
         dfs(0, -1);
@@ -32,8 +28,8 @@ class LCA {
         }
         rmq.init(arr);
     }
-    int query(int a, int b) {
-        if (tin[a] > tin[b]) swap(a, b);
-        return rmq.query(tin[a], tin[b])[1];
+    int qry(int u, int v) {
+        if (tin[u] > tin[v]) { swap(u, v); }
+        return rmq.query(tin[u], tin[v])[1];
     }
-};
+}
