@@ -10,18 +10,15 @@ using ll = long long;
  * Note: If this is too slow, switch to the usaco.guide version
  * that doesn't use int128 but still uses randomized bases.
  */
-class HashedString {
-  public:
+struct HashedString {
 	static const ll M = (1ll << 61) - 1;
 	static const ll B;
-	static __int128 mul(ll a, ll b) { return (__int128)a * b; }
+	static __int128 mul(ll a, ll b) { return (__int128) a * b; }
 	static ll mod_mul(ll a, ll b) { return mul(a, b) % M; }
 
-  private:
 	static vector<ll> pow; // pow[i] = P^i % M
 	vector<ll> p_hash;     // p_hash[i] = hash of first i characters in string
 
-  public:
     HashedString() {}
 	HashedString(const string &s) : p_hash(s.size() + 1) {
 		while (pow.size() < s.size()) { pow.push_back(mod_mul(pow.back(), B)); }
@@ -52,3 +49,6 @@ class HashedString {
         return lo + 1;
     }
 };
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+vector<ll> HashedString::pow = {1};
+const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);
