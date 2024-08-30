@@ -3,9 +3,11 @@ using namespace std;
 using ll = long long;
 
 /**
- * Segtree template that I think is generic enough.
- * Note that I haven't figured out how to support range
- * set as well lol.
+ * How to use: set the ID and LZ_ID accordingly.
+ * Also, write the apply function accordingly. 
+ * That's basically it! You might need to write some
+ * diff code for the build and segtree walking though, depending
+ * on your use case.
  */
 template<class T, class U> struct LazySegtree {
     static constexpr T ID = 0;         // set yourself
@@ -37,12 +39,12 @@ template<class T, class U> struct LazySegtree {
         }
     }
     void apply(int v, int len, U x) {
-        // set yourself
-        // applies the update x to node v.
+        // apply the update x to node v
+        // put the lazy update to lz[v]
     }
-    void push(int l, int r, int v) {
+    void pushdown(int v, int l, int r) {
         if (lz[v] != LZ_ID && l != r) {
-            int m = (l + r) >> 1;
+            int m = (l + r) / 2;
             for (int x : {2 * v, 2 * v + 1}) {
                 int len = (x == 2 * v ? m - l + 1 : r - m);
                 apply(x, len, lz[v]);
@@ -50,29 +52,43 @@ template<class T, class U> struct LazySegtree {
         }
         lz[v] = LZ_ID;
     }
-    void upd(int ql, int qr, U x, int l, int r, int v) {
-        if (qr < l || ql > r) return;
-        if (l >= ql && r <= qr) {
-            apply(v, r - l + 1, x);
+    void upd(int v, int tl, int tr, int ql, int qr, U x) {
+        if (qr < tl || ql > tr) return;
+        if (ql <= tl && tr <= qr) {
+            apply(v, tr - tl + 1, x);
         } else {
-            push(l, r, v);
-            int m = l + r >> 1;
-            upd(ql, qr, x, l, m, v * 2);
-            upd(ql, qr, x, m + 1, r, v * 2 + 1);
-            t[v] = comb(t[v * 2], t[v * 2 + 1]);
+            pushdown(v, tl, tr);
+            int m = (tl + tr) / 2;
+            upd(2 * v, tl, m, ql, qr, x);
+            upd(2 * v + 1, m + 1, tr, ql, qr, x);
+            t[v] = comb(t[2 * v], t[2 * v + 1]);
         }
     }
     void upd(int ql, int qr, U x) {
-        return upd(ql, qr, x, 0, sz - 1, 1);
+        upd(1, 0, sz - 1, ql, qr, x);
     }
-    T qry(int ql, int qr, int l, int r, int v) {
+    T qry(int v, int l, int r, int ql, int qr) {
         if (qr < l || ql > r) return ID;
         if (l >= ql && r <= qr) return t[v];
-        push(l, r, v);
+        pushdown(l, r, v);
         int m = (l + r) >> 1;
-        return comb(qry(ql, qr, l, m, v * 2), qry(ql, qr, m + 1, r, v * 2 + 1));
+        return comb(qry(2 * v, l, m, ql, qr), 
+                    qry(2 * v + 1, m + 1, r, ql, qr));
     }
     T qry(int ql, int qr) {
-        return qry(ql, qr, 0, sz - 1, 1);
+        return qry(1, 0, sz - 1, ql, qr);
+    }
+    template<class F> int walk(int v, int l, int r, F &func) {
+        if (l == r) {
+            return l;
+        } else {
+            pushdown(v, l, r);
+            int m = (l + r) >> 1;
+            return func(t[v * 2]) ? walk(2 * v, l, m, func)
+                                  : walk(2 * v + 1, m + 1, r, func); 
+        }
+    }
+    template<class F> int walk(F func) {
+        return walk(1, 0, sz - 1, func);
     }
 };
