@@ -52,15 +52,15 @@ template<class T, class U> struct LazySegtree {
         }
         lz[v] = LZ_ID;
     }
-    void upd(int v, int tl, int tr, int ql, int qr, U x) {
-        if (qr < tl || ql > tr) return;
-        if (ql <= tl && tr <= qr) {
-            apply(v, tr - tl + 1, x);
+    void upd(int v, int l, int r, int ql, int qr, U x) {
+        if (qr < l || ql > r) return;
+        if (ql <= l && r <= qr) {
+            apply(v, r - l + 1, x);
         } else {
-            pushdown(v, tl, tr);
-            int m = (tl + tr) / 2;
-            upd(2 * v, tl, m, ql, qr, x);
-            upd(2 * v + 1, m + 1, tr, ql, qr, x);
+            pushdown(v, l, r);
+            int m = (l + r) / 2;
+            upd(2 * v, l, m, ql, qr, x);
+            upd(2 * v + 1, m + 1, r, ql, qr, x);
             t[v] = comb(t[2 * v], t[2 * v + 1]);
         }
     }
@@ -70,7 +70,7 @@ template<class T, class U> struct LazySegtree {
     T qry(int v, int l, int r, int ql, int qr) {
         if (qr < l || ql > r) return ID;
         if (l >= ql && r <= qr) return t[v];
-        pushdown(l, r, v);
+        pushdown(v, l, r);
         int m = (l + r) >> 1;
         return comb(qry(2 * v, l, m, ql, qr), 
                     qry(2 * v + 1, m + 1, r, ql, qr));
