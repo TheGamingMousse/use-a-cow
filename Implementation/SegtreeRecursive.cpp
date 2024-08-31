@@ -9,38 +9,39 @@ using ll = long long;
  * diff code for the build and segtree walking though, depending
  * on your use case.
  */
+// T = tree node type, which will be long long
+// U = update type, which will be array<ll, 2>
 template<class T, class U> struct LazySegtree {
-    static constexpr T ID = 0;         // set yourself
-    static constexpr U LZ_ID = {1, 0}; // set yourself
-    int sz;
+    static constexpr T ID = 0;         // neutral tree node value
+    static constexpr U LZ_ID = {0, 0}; // neutral lazy update value
+    const int sz;
     vector<T> t;
     vector<U> lz;
  
-    inline T comb(T a, T b) { return a + b; } // set yourself
-    void init(int _sz, T val = ID) {
-        sz = _sz;
-        t.assign(sz * 4, val);
-        lz.assign(sz * 4, LZ_ID);
-    }
+    inline T comb(T a, T b) { return a + b; }
     void init(vector<T> &a) {
         sz = a.size();
         t.resize(sz * 4, ID);
         lz.assign(sz * 4, LZ_ID);
         build(0, sz - 1, 1, a);
     }
-    void build(int l, int r, int v, vector<T> &a) {
-        if (l == r)
+    LazySegtree(const vector<T> &a)
+        : sz((int) a.size()), t(4 * sz, ID), lz(4 * sz, LZ_ID) {
+        build(1, 0, sz - 1, a);
+    }   
+    void build(int v, int l, int r, const vector<T> &a) {
+        if (l == r) {
             t[v] = a[l];
-        else {
+        } else {
             int m = (l + r) >> 1;
-            build(l, m, v * 2, a);
-            build(m + 1, r, v * 2 + 1, a);
-            t[v] = comb(t[v * 2], t[v * 2 + 1]);
+            build(2 * v, l, m, a);;
+            build(2 * v + 1, m + 1, r, a);
+            t[v] = comb(t[2 * v], t[2 * v + 1]);
         }
     }
     void apply(int v, int len, U x) {
-        // apply the update x to node v
-        // put the lazy update to lz[v]
+        // applies lazy update to v, 
+        // sets lazy update to lz[v]
     }
     void pushdown(int v, int l, int r) {
         if (lz[v] != LZ_ID && l != r) {
@@ -52,15 +53,15 @@ template<class T, class U> struct LazySegtree {
         }
         lz[v] = LZ_ID;
     }
-    void upd(int v, int l, int r, int ql, int qr, U x) {
-        if (qr < l || ql > r) return;
-        if (ql <= l && r <= qr) {
-            apply(v, r - l + 1, x);
+    void upd(int v, int tl, int tr, int ql, int qr, U x) {
+        if (qr < tl || ql > tr) return;
+        if (ql <= tl && tr <= qr) {
+            apply(v, tr - tl + 1, x);
         } else {
-            pushdown(v, l, r);
-            int m = (l + r) / 2;
-            upd(2 * v, l, m, ql, qr, x);
-            upd(2 * v + 1, m + 1, r, ql, qr, x);
+            pushdown(v, tl, tr);
+            int m = (tl + tr) / 2;
+            upd(2 * v, tl, m, ql, qr, x);
+            upd(2 * v + 1, m + 1, tr, ql, qr, x);
             t[v] = comb(t[2 * v], t[2 * v + 1]);
         }
     }
@@ -77,18 +78,5 @@ template<class T, class U> struct LazySegtree {
     }
     T qry(int ql, int qr) {
         return qry(1, 0, sz - 1, ql, qr);
-    }
-    template<class F> int walk(int v, int l, int r, F &func) {
-        if (l == r) {
-            return l;
-        } else {
-            pushdown(v, l, r);
-            int m = (l + r) >> 1;
-            return func(t[v * 2]) ? walk(2 * v, l, m, func)
-                                  : walk(2 * v + 1, m + 1, r, func); 
-        }
-    }
-    template<class F> int walk(F func) {
-        return walk(1, 0, sz - 1, func);
     }
 };
