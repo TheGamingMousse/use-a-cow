@@ -45,7 +45,7 @@ template<class T, class U> struct LazySegtree {
     }
     void pushdown(int v, int l, int r) {
         if (lz[v] != LZ_ID && l != r) {
-            int m = (l + r) / 2;
+            int m = (l + r) >> 1;
             apply(2 * v, m - l + 1, lz[v]);
             apply(2 * v + 1, r - m, lz[v]);
         }
@@ -57,7 +57,7 @@ template<class T, class U> struct LazySegtree {
             apply(v, r - l + 1, x);
         } else {
             pushdown(v, l, r);
-            int m = (l + r) / 2;
+            int m = (l + r) >> 1;
             upd(2 * v, l, m, ql, qr, x);
             upd(2 * v + 1, m + 1, r, ql, qr, x);
             t[v] = comb(t[2 * v], t[2 * v + 1]);
@@ -76,5 +76,21 @@ template<class T, class U> struct LazySegtree {
     }
     T qry(int ql, int qr) {
         return qry(1, 0, sz - 1, ql, qr);
+    }
+    template<class F> 
+    int walk(int v, int l, int r, T cur, const F &func) {
+        if (l == r) {
+            return l;
+        } else {
+            int m = (l + r) / 2;
+            pushdown(v, l, r);
+            T x = comb(cur, t[2 * v]);
+            return func(x) ? walk(2 * v, l, m, cur, func) 
+                           : walk(2 * v + 1, m + 1, r, x, func);
+        }
+    }
+    template<class F>
+    int walk(const F &func) {
+        return walk(1, 0, sz - 1, ID, func);
     }
 };
