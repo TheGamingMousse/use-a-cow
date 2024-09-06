@@ -14,20 +14,15 @@ using ll = long long;
 template<class T, class U> struct LazySegtree {
     static constexpr T ID = 0;         // neutral tree node value
     static constexpr U LZ_ID = {0, 0}; // neutral lazy update value
-    const int sz;
+    const int n;
     vector<T> t;
     vector<U> lz;
  
     inline T comb(T a, T b) { return a + b; }
-    void init(vector<T> &a) {
-        sz = a.size();
-        t.resize(sz * 4, ID);
-        lz.assign(sz * 4, LZ_ID);
-        build(0, sz - 1, 1, a);
-    }
+    LazySegtree(int n) : sz(n), t(4 * sz, ID), lz(4 * sz, LZ_ID) {}
     LazySegtree(const vector<T> &a)
-        : sz((int) a.size()), t(4 * sz, ID), lz(4 * sz, LZ_ID) {
-        build(1, 0, sz - 1, a);
+        : n((int) a.size()), t(4 * n, ID), lz(4 * n, LZ_ID) {
+        build(1, 0, n - 1, a);
     }   
     void build(int v, int l, int r, const vector<T> &a) {
         if (l == r) {
@@ -64,7 +59,7 @@ template<class T, class U> struct LazySegtree {
         }
     }
     void upd(int ql, int qr, U x) {
-        upd(1, 0, sz - 1, ql, qr, x);
+        upd(1, 0, n - 1, ql, qr, x);
     }
     T qry(int v, int l, int r, int ql, int qr) {
         if (qr < l || ql > r) return ID;
@@ -75,7 +70,7 @@ template<class T, class U> struct LazySegtree {
                     qry(2 * v + 1, m + 1, r, ql, qr));
     }
     T qry(int ql, int qr) {
-        return qry(1, 0, sz - 1, ql, qr);
+        return qry(1, 0, n - 1, ql, qr);
     }
     template<class F> 
     int walk(int v, int l, int r, T cur, const F &func) {
@@ -91,6 +86,6 @@ template<class T, class U> struct LazySegtree {
     }
     template<class F>
     int walk(const F &func) {
-        return walk(1, 0, sz - 1, ID, func);
+        return walk(1, 0, n - 1, ID, func);
     }
 };

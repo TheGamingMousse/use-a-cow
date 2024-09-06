@@ -29,7 +29,7 @@ struct HashedString {
 	}
 
 	/** @return length of the string */
-	int size() { return (int) p_hash.size() - 1; }
+	inline int size() { return (int) p_hash.size() - 1; }
 
 	/** @return hash of the substring [l, r] */
 	ll get_hash(int l, int r) {
