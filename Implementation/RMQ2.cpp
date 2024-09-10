@@ -4,7 +4,7 @@ using ll = long long;
 
 template<typename T> struct RMQ {
 	vector<T> v; int n;
-	constexpr int b = 30;
+	static constexpr int b = 30;
 	vector<int> mask, t;
 	int op(int x, int y) { return v[x] < v[y] ? x : y; }
 	int lsb(int x) { return x & -x; }

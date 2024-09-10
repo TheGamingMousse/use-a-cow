@@ -10,36 +10,40 @@ using ll = long long;
  * SegmentTree st(arr, join, def)
 */
 template<class T, class F> class SegmentTree {
-    private:
-        int len; F join; T DEF; vector<T> t; 
-    public:
-        SegmentTree() {}
-        SegmentTree(const vector<T> &arr, T val, F fn) 
-            : len((int) arr.size()), join(fn), DEF(val) {
-            t = vector<T>(len * 2, DEF);
-            for (int i = 0; i < len; i++) {
-                t[i + len] = arr[i];
-            }
-            for (int i = len - 1; i > 0; i--) {
-                t[i] = join(t[i << 1], t[i << 1 | 1]);
-            }
+  private:
+    const int len; 
+    const F join; 
+    const T DEF; 
+    vector<T> t; 
+    
+  public:
+    SegmentTree() {}
+    SegmentTree(const vector<T> &arr, const F& fn, T val) 
+        : len((int) arr.size()), join(fn), DEF(val) {
+        t = vector<T>(len * 2, DEF);
+        for (int i = 0; i < len; i++) {
+            t[i + len] = arr[i];
         }
-        void set(int idx, T val) {
-            for (t[idx += len] = val; idx >>= 1; ) {
-                t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
-            }
+        for (int i = len - 1; i > 0; i--) {
+            t[i] = join(t[i << 1], t[i << 1 | 1]);
         }
-        /** @return query on [l, r) */
-        T qry(int l, int r) {
-            T res_l = DEF, res_r = DEF;
-            for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
-                if (l & 1) { res_l = join(res_l, t[l++]); }
-                if (r & 1) { res_r = join(t[--r], res_r); }
-            }
-            return join(res_l, res_r);
+    }
+    void set(int idx, T val) {
+        for (t[idx += len] = val; idx >>= 1; ) {
+            t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
         }
-        /** @return value at location idx */
-        T get(int idx) {
-            return t[idx + len];
+    }
+    /** @return query on [l, r) */
+    T qry(int l, int r) {
+        T res_l = DEF, res_r = DEF;
+        for (l += len, r += len; l < r; l >>= 1, r >>= 1) {
+            if (l & 1) { res_l = join(res_l, t[l++]); }
+            if (r & 1) { res_r = join(t[--r], res_r); }
         }
+        return join(res_l, res_r);
+    }
+    /** @return value at location idx */
+    T get(int idx) {
+        return t[idx + len];
+    }
 };
