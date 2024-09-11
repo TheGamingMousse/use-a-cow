@@ -19,20 +19,23 @@ class LazySegtree {
             t[v] = t[2 * v] + t[2 * v + 1];
         }
     }
-    void apply(int v, int len, const Tag &x) {
-        t[v].apply(x, len);
-        lz[v].apply(x, len);
+
+    void apply(int v, int l, int r, const Tag &x) {
+        t[v].apply(x, l, r);
+        lz[v].apply(x, l, r);
     }
+
     void pushdown(int v, int l, int r) {
         int m = (l + r) >> 1;
-        apply(2 * v, m - l + 1, lz[v]);
-        apply(2 * v + 1, r - m, lz[v]);
+        apply(2 * v, l, m, lz[v]);
+        apply(2 * v + 1, m + 1, r, lz[v]);
         lz[v] = Tag();
     }
+
     void upd(int v, int l, int r, int ql, int qr, const Tag &x) {
         if (qr < l || ql > r) { return; }
         if (ql <= l && r <= qr) {
-            apply(v, r - l + 1, x);
+            apply(v, l, r, x);
         } else {
             pushdown(v, l, r);
             int m = (l + r) >> 1;
@@ -50,19 +53,6 @@ class LazySegtree {
         return qry(2 * v, l, m, ql, qr) + qry(2 * v + 1, m + 1, r, ql, qr);
     }
 
-    template<class F> 
-    int walk(int v, int l, int r, Info cur, const F &func) {
-        if (l == r) {
-            return l;
-        } else {
-            int m = (l + r) / 2;
-            pushdown(v, l, r);
-            Info x = cur + t[2 * v];
-            return func(x) ? walk(2 * v, l, m, cur, func) 
-                           : walk(2 * v + 1, m + 1, r, x, func);
-        }
-    }
-
   public:
     LazySegtree(int n) : n(n) {
         t.assign(4 << __lg(n), Info());
@@ -75,39 +65,32 @@ class LazySegtree {
         build(1, 0, n - 1, a);
     }
 
+    /** updates [ql, qr] with the arbitrary update chosen */
     void upd(int ql, int qr, const Tag &x) {
         upd(1, 0, n - 1, ql, qr, x);
     }
 
+    /** @return result of range query on [ql, qr] */
     Info qry(int ql, int qr) {
         return qry(1, 0, n - 1, ql, qr);
-    }
-
-    template<class F>
-    int walk(const F &func) {
-        return walk(1, 0, n - 1, Info(), func);
     }
 };
 
 struct Tag {
-    // tree values, and also set the default values
-
-    /** apply this new tag to this lazy tag */
-    void apply(const Tag &t, int len) {
-        
+    // lazy tag values
+    void apply(const Tag &t, int l, int r) {
+        // tag to tag code
     }
 };
 
 struct Info {
-    // lazy tag values, and also set the default tag values 
-    
-    /** apply the lazy tag to this tree value */
-    void apply(const Tag &t, int len) {
-        
+    // tree values
+    void apply(const Tag &t, int l, int r) {
+        // tag to tree value code
     }
 };
 
-/** @return result of joining a amd b together */
+/** @return result of joining nodes a and b together */
 Info operator+(const Info &a, const Info &b) {
 
 }
