@@ -22,7 +22,7 @@ class LazySegtree {
 
     void apply(int v, int l, int r, const Tag &x) {
         t[v].apply(x, l, r);
-        lz[v].apply(x, l, r);
+        lz[v].apply(x);
     }
 
     void pushdown(int v, int l, int r) {
@@ -78,7 +78,7 @@ class LazySegtree {
 
 struct Tag {
     // lazy tag values
-    void apply(const Tag &t, int l, int r) {
+    void apply(const Tag &t) {
         // tag to tag code
     }
 };
