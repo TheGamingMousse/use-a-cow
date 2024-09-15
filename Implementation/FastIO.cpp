@@ -28,7 +28,7 @@ namespace IO {
     }
     
     inline void read_char(char &val) {
-        while (!isalpha(val = next_char()));
+        while (isspace(val = next_char()));
     }
 
     inline void read_string(string &val) {

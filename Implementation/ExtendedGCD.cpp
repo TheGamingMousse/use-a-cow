@@ -8,7 +8,8 @@ using ll = long long;
  * 
  * Stolen from Brian again.
  */
-template<typename T> array<T, 3> extendedGCD(T m, T n) {
+template <typename T> 
+array<T, 3> extended_gcd(T m, T n) {
     T a = 1, a_in = 0, b = 0, b_in = 1;
     while (n) {
         const T q = m / n;

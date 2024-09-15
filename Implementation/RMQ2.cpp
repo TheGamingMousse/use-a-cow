@@ -2,6 +2,10 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * <O(n), O(1)> Sparse Table. IDK why you would ever
+ * need this, but just in case...
+ */
 template<typename T> struct RMQ {
 	vector<T> v; int n;
 	static constexpr int b = 30;

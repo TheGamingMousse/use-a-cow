@@ -40,7 +40,7 @@ template<typename T> class Combinatorics {
             reserve(n);
             return fact[n] * invFact[n - k];
         }
-        T getInv(int n) { reserve(n); return invFact[n] * fact[n - 1]; }
-        T getInvFact(int n) { reserve(n); return invFact[n]; }
-        T getFact(int n) { reserve(n); return fact[n]; }
+        T get_inv(int n) { reserve(n); return invFact[n] * fact[n - 1]; }
+        T get_inv_fact(int n) { reserve(n); return invFact[n]; }
+        T get_fact(int n) { reserve(n); return fact[n]; }
 };

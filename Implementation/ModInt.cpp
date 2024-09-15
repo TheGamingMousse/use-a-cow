@@ -6,7 +6,7 @@ using ll = long long;
  * Solves the equation ax + by = gcd(a, b).
  * Returns {gcd(a, b), x, y}.
  */
-template<class T> array<T, 3> extendedGCD(T m, T n) {
+template <typename T> array<T, 3> extended_gcd(T m, T n) {
     T a = 1, a_in = 0, b = 0, b_in = 1;
     while (n) {
         const T q = m / n;
@@ -47,7 +47,7 @@ template<int MOD> struct MInt {
         }
         return res;
     }
-    friend MInt inv(MInt o) { return MInt(extendedGCD(o.v, MOD)[1]); }
+    friend MInt inv(MInt o) { return MInt(extended_gcd(o.v, MOD)[1]); }
     friend MInt operator+(MInt a, MInt b) { return a += b; }
     friend MInt operator-(MInt a, MInt b) { return a -= b; }
     friend MInt operator*(MInt a, MInt b) { return a *= b; }
