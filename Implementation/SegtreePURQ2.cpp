@@ -28,11 +28,13 @@ template<class T, class F> class SegmentTree {
             t[i] = join(t[i << 1], t[i << 1 | 1]);
         }
     }
+
     void set(int idx, T val) {
         for (t[idx += len] = val; idx >>= 1; ) {
             t[idx] = join(t[idx << 1], t[idx << 1 | 1]);
         }
     }
+
     /** @return query on [l, r) */
     T qry(int l, int r) {
         T res_l = DEF, res_r = DEF;
@@ -42,6 +44,7 @@ template<class T, class F> class SegmentTree {
         }
         return join(res_l, res_r);
     }
+    
     /** @return value at location idx */
     T get(int idx) {
         return t[idx + len];

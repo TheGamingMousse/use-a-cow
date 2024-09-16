@@ -10,6 +10,7 @@ struct LCA {
     vector<int> tin, et, dep;
     RMQ<array<int, 2>> rmq;
     int timer = 0;
+
     void dfs(int u, int p) {
         tin[u] = timer, et[timer++] = u;
         for (int v : adj[u]) {
@@ -19,6 +20,7 @@ struct LCA {
             et[timer++] = u;
         }
     }
+
     LCA(int _n, vector<vector<int>> &_adj) 
         : n(_n), adj(_adj), tin(n), et(2 * n), dep(n) {
         dfs(0, -1);
@@ -28,8 +30,13 @@ struct LCA {
         }
         rmq.init(arr);
     }
+
     int qry(int u, int v) {
         if (tin[u] > tin[v]) { swap(u, v); }
         return rmq.query(tin[u], tin[v])[1];
+    }
+    
+    int dist(int u, int v) {
+        return dep[u] + dep[v] - 2 * dep[qry(u, v)];
     }
 }

@@ -2,12 +2,16 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * Faster, more lightweight string hashing
+ * template. Taken from USACO Guide, with some edits.
+ */
 class HashedString {
   private:
-	static const long long M = 1e9 + 9;
-	static const long long B;
-	static vector<long long> pow;
-	vector<long long> p_hash;
+	static const ll M = 1e9 + 9;
+	static const ll B;
+	static vector<ll> pow;
+	vector<ll> p_hash;
 
   public:
 	HashedString() {}
@@ -27,7 +31,7 @@ class HashedString {
 
     /** @return hash of [l, r] */
 	long long get_hash(int l, int r) {
-		long long raw = p_hash[r + 1] - (p_hash[l] * pow[r - l + 1]);
+		ll raw = p_hash[r + 1] - (p_hash[l] * pow[r - l + 1]);
 		return (raw % M + M) % M;
 	}
 };

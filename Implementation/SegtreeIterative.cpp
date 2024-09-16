@@ -2,6 +2,14 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * Generic segtree template written by Brian.
+ * forLevels is for segtree walking, forRange for 
+ * updates and queries, forParents for pushing down
+ * or pulling updates, etc.
+ * 
+ * (Most of the time I just use recursive tho lmao)
+ */
 namespace SegmentTree {
     template <typename F>
     int forLevels(int node, int sz, bool dir, F f) {
