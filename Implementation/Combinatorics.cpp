@@ -5,7 +5,7 @@ using ll = long long;
 /**
  * Stolen from Brian. It should work.
 */
-template<typename T> class Combinatorics {
+template <typename T> class Combinatorics {
     private:
         vector<T> fact, invFact;
         int ptr = 0;
