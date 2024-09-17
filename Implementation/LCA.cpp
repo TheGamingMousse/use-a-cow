@@ -2,6 +2,11 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * <O(n log n), O(1)> LCA implementation.
+ * Can be reduced to O(n) build with O(n) init RMQ.
+*/
+
 #include "RMQ1.cpp"
 
 struct LCA {
