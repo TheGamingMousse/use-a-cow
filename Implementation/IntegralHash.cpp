@@ -5,6 +5,7 @@ using ll = long long;
 /**
  * This hash is for unordered maps.... probably wouldn't use it
  * most of the time TBH, but it could help for cheesing!
+ * Would use like: unordered_map<int, T, chash>
  */
 struct chash {
 	const uint64_t C = uint64_t(2e18 * 3.1415927) + 71;
