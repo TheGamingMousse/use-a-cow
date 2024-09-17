@@ -36,7 +36,7 @@ namespace IO {
         read_char(ch);
         do {
             val.push_back(ch);
-        } while (isalpha(ch = next_char()));
+        } while (!isspace(ch = next_char()));
     }
 
     template<typename T> 
