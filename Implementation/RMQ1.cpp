@@ -2,6 +2,10 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * <O(n log n), O(1)> RMQ implementation. Some stuff is
+ * borrowed from tourist.
+*/
 template <class T> struct RMQ {
     int n; vector<vector<T>> st;
     void init(const vector<T> &a) {
