@@ -3,9 +3,10 @@ using namespace std;
 using ll = long long;
 
 /**
- * Solves the equation ax + by = gcd(a, b).
- * Returns {gcd(a, b), x, y}.
+ * Modular int template with some nice-to-haves.
+ * Supports modular inverses if they exist for the mod and the value.
  */
+
 template <typename T> array<T, 3> extended_gcd(T m, T n) {
     T a = 1, a_in = 0, b = 0, b_in = 1;
     while (n) {
@@ -16,6 +17,7 @@ template <typename T> array<T, 3> extended_gcd(T m, T n) {
     }
     return array<T, 3>({m, a, b});
 }
+
 template<int MOD> struct MInt {
     int v; 
     constexpr MInt() : v(0) {}
