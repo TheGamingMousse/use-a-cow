@@ -13,11 +13,13 @@ struct TrieNode {
 	int cnt = 0;
 	array<TrieNode*, 26> ch;
 };
+
 TrieNode* new_node() {
 	TrieNode* cur = new TrieNode;
 	(cur -> ch).fill(nullptr);
 	return cur;
 }
+
 TrieNode* root = new_node();
 void insert(const string &s) {
 	TrieNode* cur = root;

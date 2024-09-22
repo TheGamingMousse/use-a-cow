@@ -2,6 +2,16 @@
 using namespace std;
 using ll = long long;
 
+/**
+ * Lazy segtree template that is like,
+ * generic enough for 90% of stuff... at least,
+ * it has been generic enough for every problem I've
+ * done lmao.
+ * 
+ * Range Update: O(log n)
+ * Range Query: O(log n)
+ * Build: O(n)
+ */
 template <class Info, class Tag> 
 class LazySegtree {
   private:
@@ -80,6 +90,7 @@ struct Tag {
     // lazy tag values
     void apply(const Tag &t) {
         // tag to tag code
+        // NOTE: make sure the no update tag is handled correctly
     }
 };
 
@@ -87,6 +98,7 @@ struct Info {
     // tree values
     void apply(const Tag &t, int l, int r) {
         // tag to tree value code
+        // NOTE: make sure the no update tag is handled correctly
     }
 };
 

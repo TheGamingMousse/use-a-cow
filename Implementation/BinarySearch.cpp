@@ -16,6 +16,7 @@ T first_true(T low, T high, const F &fn) {
     }
     return low;
 }
+
 template <typename T, typename F> 
 T last_true(T low, T high, const F &fn) {
     while (low < high) {

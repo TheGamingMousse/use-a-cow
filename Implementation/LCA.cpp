@@ -19,7 +19,7 @@ struct LCA {
     void dfs(int u, int p) {
         tin[u] = timer, et[timer++] = u;
         for (int v : adj[u]) {
-            if (v == p) continue;
+            if (v == p) { continue; }
             dep[v] = dep[u] + 1;
             dfs(v, u);
             et[timer++] = u;
