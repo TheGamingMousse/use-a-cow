@@ -20,7 +20,7 @@ namespace Sieve {
 			}
 		}
 	}
-	bool isPrime(int x) {
+	bool is_prime(int x) {
 		assert(x < (int) minp.size());
 		return minp[x] == x;
 	}
