@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
-using pii = array<int, 2>;
-#define all(x) begin(x), end(x)
-#define sz(x) (int) (x).size()
 
-template <typename T> struct Fenwick2D {
+template <typename T> class Fenwick2D {
   private:
     const int n, m;
     vector<vector<T>> arr;
