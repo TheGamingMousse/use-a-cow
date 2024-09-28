@@ -19,7 +19,7 @@ class SegmentTree {
     
   public:
     SegmentTree() {}
-    SegmentTree(const vector<T> &arr, const F& fn, T val) 
+    SegmentTree(const vector<T> &arr, const F &fn, T val) 
         : len(arr.size()), join(fn), DEF(val) {
         t = vector<T>(len * 2, DEF);
         for (int i = 0; i < len; i++) {

@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
 /**
  * Offline 2D Fenwick Tree implementation.
  * Note that n needs to be of a reasonable size, and

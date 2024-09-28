@@ -18,6 +18,7 @@ namespace SegmentTree {
         }
         return node;
     }
+
     template <typename F> 
     void forRange(int node_1, int node_2, F f) {
         for (; node_1 < node_2; node_1 >>= 1, node_2 >>= 1) {
@@ -25,6 +26,7 @@ namespace SegmentTree {
             if (node_2 & 1) f(--node_2);
         }
     } 
+
     template<typename F> 
     void forParents(int p, bool dir, F f) {
         const int lvls = __lg(p);
@@ -32,6 +34,7 @@ namespace SegmentTree {
             f(p >> (!dir ? lvls - i + 1 : i));
         }
     }
+    
     template<typename F> 
     void forRangeOrdered(int node_1, int node_2, bool dir, F f) {
         int base = !dir ? node_1 - 1 : node_2;
