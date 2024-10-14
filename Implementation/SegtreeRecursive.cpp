@@ -64,6 +64,8 @@ class LazySegtree {
     }
 
   public:
+    LazySegtree() {}
+    
     LazySegtree(int n) : n(n) {
         t.assign(4 << __lg(n), Info());
         lz.assign(4 << __lg(n), Tag());

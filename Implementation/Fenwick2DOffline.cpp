@@ -21,7 +21,7 @@ template <typename T> class OfflineFenwick2D {
     OfflineFenwick2D(int _n, vector<array<int, 2>> &todo)
         : n(_n), vals(n + 1), arr(n + 1) {
         sort(begin(todo), end(todo), 
-            [](const array<int, 2> &a, const array<int, 2> &b) -> bool {
+            [](const auto &a, const auto &b) -> bool {
             return a[1] < b[1];
         });
         for (int i = 1; i <= n; i++) { vals[i].push_back(0); }

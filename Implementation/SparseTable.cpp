@@ -2,7 +2,8 @@
 using namespace std;
 using ll = long long;
 
-template <class T, class F> struct SparseTable {
+template <typename T, typename F> 
+struct SparseTable {
     const int n; 
     const F join;
     vector<vector<T>> st;
