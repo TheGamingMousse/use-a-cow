@@ -7,8 +7,9 @@ struct SparseTable {
     const int n; 
     const F join;
     vector<vector<T>> st;
+    
     SparseTable(const vector<T> &a, const F &f) 
-               : n((int) a.size()), join(f) {
+               : n(a.size()), join(f) {
         int max_log = 1 + __lg(n);
         st.resize(max_log);
         st[0] = a;
@@ -19,6 +20,7 @@ struct SparseTable {
             }
         }
     }
+
     /** @return query on range [l, r] */
     T qry(int l, int r) const {
         int lg = __lg(r - l + 1);
