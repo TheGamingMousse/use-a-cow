@@ -7,7 +7,9 @@ using ll = long long;
  * borrowed from tourist.
 */
 template <class T> struct RMQ {
-    int n; vector<vector<T>> st;
+    int n; 
+    vector<vector<T>> st;
+    
     void init(const vector<T> &a) {
         n = (int) a.size();
         int max_log = 1 + __lg(n);
@@ -20,6 +22,7 @@ template <class T> struct RMQ {
             }
         }
     }
+
     /** @return query on range [l, r] */
     T qry(int l, int r) const {
         int lg = __lg(r - l + 1);
