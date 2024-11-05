@@ -44,4 +44,4 @@ struct LCA {
     int dist(int u, int v) {
         return dep[u] + dep[v] - 2 * dep[qry(u, v)];
     }
-}
+};
