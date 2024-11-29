@@ -1,12 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+using ll = long long;
+
 /**
  * Answers tree path RMQ in O(log n).
  * Uses merging by size but does
  * not use path compression.
  */
 constexpr int INF = 1e9 + 7;
+
 struct DisjointSet {
     vector<int> e, t;
     DisjointSet(int n) { 

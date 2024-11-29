@@ -35,6 +35,7 @@ class HashedString {
 		return (raw % M + M) % M;
 	}
 };
+
 vector<ll> HashedString::pow = {1};
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);

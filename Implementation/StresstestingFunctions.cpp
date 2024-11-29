@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 using ll = long long;
 
 inline namespace Random {
@@ -90,7 +91,7 @@ vector<array<int, 2>> gen_rand_graph(int n, int m) {
 /**
  * Returns a random array with values being on [low, high]
  */
-template <typename T> gen_arr(int n, T low, T high) {
+template <typename T> vector<T> gen_arr(int n, T low, T high) {
     int diff = (int) (high - low);
     vector<T> res(n);
     for (int i = 0; i < n; i++) {

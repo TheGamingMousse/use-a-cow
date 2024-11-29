@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 using ll = long long;
 
 /**
- * Stolen from Brian. It should work.
+ * Stolen from Brian, with some minor edits...
 */
 template <typename T> class Combinatorics {
     private:

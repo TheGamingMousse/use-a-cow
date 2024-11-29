@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 using ll = long long;
 
 /**
@@ -49,6 +50,7 @@ struct HashedString {
         return lo + 1;
     }
 };
+
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 vector<ll> HashedString::pow = {1};
 const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);
