@@ -66,7 +66,7 @@ class LazySegtree {
 
     template <class F>
     int walkleft(int v, int l, int r, Info pref, const F &f) {
-        if (l == r) { return l; }
+        if (l == r) return l;
         pushdown(v, l, r);
         int m = (l + r) >> 1;
         Info add = pref + t[2 * v];
