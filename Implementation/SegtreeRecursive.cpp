@@ -64,6 +64,16 @@ class LazySegtree {
         return qry(2 * v, l, m, ql, qr) + qry(2 * v + 1, m + 1, r, ql, qr);
     }
 
+    template <class F>
+    int walkleft(int v, int l, int r, Info pref, const F &f) {
+        if (l == r) { return l; }
+        pushdown(v, l, r);
+        int m = (l + r) >> 1;
+        Info add = pref + t[2 * v];
+        return f(add) ? walk(2 * v, l, m, pref, f)
+                      : walk(2 * v + 1, m + 1, r, add, f);
+    }
+
   public:
     LazySegtree() {}
     
@@ -86,6 +96,11 @@ class LazySegtree {
     /** @return result of range query on [ql, qr] */
     Info qry(int ql, int qr) {
         return qry(1, 0, n - 1, ql, qr);
+    }
+
+    template <class F>
+    int walkleft(const F &f) {
+        return walkleft(1, 0, n - 1, Info(), f);
     }
 };
 
