@@ -70,8 +70,8 @@ class LazySegtree {
         pushdown(v, l, r);
         int m = (l + r) >> 1;
         Info add = pref + t[2 * v];
-        return f(add) ? walk(2 * v, l, m, pref, f)
-                      : walk(2 * v + 1, m + 1, r, add, f);
+        return f(add) ? walkleft(2 * v, l, m, pref, f)
+                      : walkleft(2 * v + 1, m + 1, r, add, f);
     }
 
   public:
