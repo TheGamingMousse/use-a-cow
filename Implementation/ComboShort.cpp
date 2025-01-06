@@ -13,21 +13,6 @@ ll modpow(ll x, ll n, ll m = MOD) {
     return res;
 }
 
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-
-constexpr int MOD = 998244353;
-
-ll modpow(ll x, ll n, ll m = MOD) {
-    ll res = 1;
-    for (x %= m; n; n >>= 1, (x *= x) %= m) {
-        if (n & 1) (res *= x) %= m;
-    }
-    return res;
-}
-
 namespace Combo {
     vector<ll> fact, inv;
 

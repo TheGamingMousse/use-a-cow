@@ -24,7 +24,7 @@ class LazySegtree {
         if (l == r) {
             t[v] = a[l];
         } else {
-            int m = (l + r) >> 1;
+            int m = (l + r) / 2;
             build(2 * v, l, m, a);
             build(2 * v + 1, m + 1, r, a);
             t[v] = t[2 * v] + t[2 * v + 1];
@@ -37,7 +37,7 @@ class LazySegtree {
     }
 
     void pushdown(int v, int l, int r) {
-        int m = (l + r) >> 1;
+        int m = (l + r) / 2;
         apply(2 * v, l, m, lz[v]);
         apply(2 * v + 1, m + 1, r, lz[v]);
         lz[v] = Tag();
@@ -49,7 +49,7 @@ class LazySegtree {
             apply(v, l, r, x);
         } else {
             pushdown(v, l, r);
-            int m = (l + r) >> 1;
+            int m = (l + r) / 2;
             upd(2 * v, l, m, ql, qr, x);
             upd(2 * v + 1, m + 1, r, ql, qr, x);
             t[v] = t[2 * v] + t[2 * v + 1];
@@ -60,7 +60,7 @@ class LazySegtree {
         if (qr < l || ql > r) return Info();
         if (l >= ql && r <= qr) return t[v];
         pushdown(v, l, r);
-        int m = (l + r) >> 1;
+        int m = (l + r) / 2;
         return qry(2 * v, l, m, ql, qr) + qry(2 * v + 1, m + 1, r, ql, qr);
     }
 
@@ -68,7 +68,7 @@ class LazySegtree {
     int walkleft(int v, int l, int r, Info pref, const F &f) {
         if (l == r) return l;
         pushdown(v, l, r);
-        int m = (l + r) >> 1;
+        int m = (l + r) / 2;
         Info add = pref + t[2 * v];
         return f(add) ? walkleft(2 * v, l, m, pref, f)
                       : walkleft(2 * v + 1, m + 1, r, add, f);
