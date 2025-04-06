@@ -14,14 +14,14 @@ template <typename T, typename F>
 class SegmentTree {
   private:
     const int len; 
-    const F join; 
     const T DEF; 
+    const F join; 
     vector<T> t; 
     
   public:
     SegmentTree() {}
-    SegmentTree(const vector<T> &arr, const F &fn, T val) 
-        : len(arr.size()), join(fn), DEF(val) {
+    SegmentTree(const vector<T> &arr, T val, const F &fn) 
+        : len(arr.size()), DEF(val), join(fn) {
         t = vector<T>(len * 2, DEF);
         for (int i = 0; i < len; i++) {
             t[i + len] = arr[i];

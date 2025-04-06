@@ -37,12 +37,12 @@ struct LCA {
         rmq.init(arr);
     }
 
-    int qry(int u, int v) {
+    int lca(int u, int v) const {
         if (tin[u] > tin[v]) { swap(u, v); }
-        return rmq.query(tin[u], tin[v])[1];
+        return rmq.qry(tin[u], tin[v])[1];
     }
     
-    int dist(int u, int v) {
-        return dep[u] + dep[v] - 2 * dep[qry(u, v)];
+    int dist(int u, int v) const {
+        return dep[u] + dep[v] - 2 * dep[lca(u, v)];
     }
 };

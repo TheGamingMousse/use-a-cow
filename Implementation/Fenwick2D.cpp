@@ -1,12 +1,11 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
 template <typename T> class Fenwick2D {
   private:
     const int n, m;
-    vector<vector<T>> arr;
+    std::vector<std::vector<T>> arr;
 
   public:
     Fenwick2D(int _n, int _m) : n(_n), m(_m), arr(n + 1, vector<T>(m + 1)) {}

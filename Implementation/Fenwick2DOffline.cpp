@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -11,17 +10,17 @@ using ll = long long;
 template <typename T> class OfflineFenwick2D {
   private:
     const int n;
-    vector<vector<int>> vals;
-    vector<vector<T>> arr;
+    std::vector<std::vector<int>> vals;
+    std::vector<std::vector<T>> arr;
 
-    int ind(const vector<int> &v, int x) {
-        return upper_bound(begin(v), end(v), x) - begin(v) - 1;
+    int ind(const std::vector<int> &v, int x) {
+        return std::upper_bound(std::begin(v), std::end(v), x) - std::begin(v) - 1;
     }
 
   public:
-    OfflineFenwick2D(int _n, vector<array<int, 2>> &todo)
+    OfflineFenwick2D(int _n, std::vector<std::array<int, 2>> &todo)
         : n(_n), vals(n + 1), arr(n + 1) {
-        sort(begin(todo), end(todo), 
+        std::sort(std::begin(todo), std::end(todo), 
             [](const auto &a, const auto &b) -> bool {
             return a[1] < b[1];
         });

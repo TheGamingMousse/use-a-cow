@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -7,8 +6,8 @@ constexpr int BITS = 30;
 
 struct Trie {
     int timer = 0;
-    vector<int> freq;
-    vector<array<int, 2>> adj;
+    std::vector<int> freq;
+    std::vector<std::array<int, 2>> adj;
     Trie(int vals) : adj(32 * vals), freq(32 * vals) {}
 
     /** inserts x into the trie */

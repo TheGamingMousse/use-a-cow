@@ -12,7 +12,12 @@ struct SCC {
 	const vector<vector<int>> &adj;
 	vector<int> disc, comp, st, comps;
 	SCC(const vector<vector<int>> &_adj)
-		: n((int) _adj.size()), adj(_adj), disc(n), comp(n, -1) {}
+		: n((int) _adj.size()), adj(_adj), disc(n), comp(n, -1) {
+		for (int i = 0; i < n; i++) {
+			if (!disc[i]) { dfs(i); }
+		}
+		reverse(begin(comps), end(comps));
+	}
 
 	int dfs(int x) {
 		int low = disc[x] = ++ti;
@@ -30,11 +35,6 @@ struct SCC {
 		}
 		return low;
 	}
-	
-	void gen() {
-		for (int i = 0; i < n; i++) {
-			if (!disc[i]) { dfs(i); }
-		}
-		reverse(begin(comps), end(comps));
-	}
+
+	inline int id(int x) { return comp[x]; }
 };

@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -18,7 +17,7 @@ namespace IO {
     uint8_t lookup[100];
  
     void _update_input_buffer() {
-        input_len = fread(input_buffer, sizeof(char), BUFFER_SIZE, stdin);
+        input_len = std::fread(input_buffer, sizeof(char), BUFFER_SIZE, stdin);
         input_pos = 0;
         if (input_len == 0) { input_buffer[0] = EOF; }
     }
@@ -29,15 +28,15 @@ namespace IO {
     }
     
     inline void read_char(char &val) {
-        while (isspace(val = next_char()));
+        while (std::isspace(val = next_char()));
     }
 
-    inline void read_string(string &val) {
+    inline void read_string(std::string &val) {
         char ch;
         read_char(ch);
         do {
             val.push_back(ch);
-        } while (!isspace(ch = next_char()));
+        } while (!std::isspace(ch = next_char()));
     }
 
     template<typename T> 
@@ -45,13 +44,13 @@ namespace IO {
         bool negative = false;
         number = 0;
  
-        while (!isdigit(next_char(false))) {
+        while (!std::isdigit(next_char(false))) {
             if (next_char() == '-') { negative = true; }
         }
 
         do {
             number = 10 * number + (next_char() - '0');
-        } while (isdigit(next_char(false)));
+        } while (std::isdigit(next_char(false)));
  
         if (negative) { number = -number; }
     }
@@ -63,7 +62,7 @@ namespace IO {
     }
  
     void _flush_output() {
-        fwrite(output_buffer, sizeof(char), output_pos, stdout);
+        std::fwrite(output_buffer, sizeof(char), output_pos, stdout);
         output_pos = 0;
     }
  
@@ -72,7 +71,7 @@ namespace IO {
         output_buffer[output_pos++] = c;
     }
 
-    inline void write_string(string &val) {
+    inline void write_string(const std::string &val) {
         for (char i : val) {
             write_char(i);
         }

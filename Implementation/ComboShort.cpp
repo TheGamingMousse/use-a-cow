@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -14,7 +13,7 @@ ll modpow(ll x, ll n, ll m = MOD) {
 }
 
 namespace Combo {
-    vector<ll> fact, inv;
+    std::vector<ll> fact, inv;
 
     void init(int n) {
         fact.resize(n + 1);

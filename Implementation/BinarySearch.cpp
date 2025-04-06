@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -10,19 +9,19 @@ using ll = long long;
  * Make sure to account for this.
 */
 template <typename T, typename F> 
-T first_true(T low, T high, const F &fn) {
-    while (low < high) {
-        T mid = low + (high - low) / 2;
-        fn(mid) ? high = mid : low = mid + 1;
+T first_true(T lo, T hi, const F &fn) {
+    while (lo < hi) {
+        T m = lo + (hi - lo) / 2;
+        fn(m) ? hi = m : lo = m + 1;
     }
-    return low;
+    return lo;
 }
 
 template <typename T, typename F> 
-T last_true(T low, T high, const F &fn) {
-    while (low < high) {
-        T mid = low + (high - low + 1) / 2;
-        fn(mid) ? low = mid : high = mid - 1;
+T last_true(T lo, T hi, const F &fn) {
+    while (lo < hi) {
+        T m = lo + (hi - lo + 1) / 2;
+        fn(m) ? lo = m : hi = m - 1;
     }
-    return low;
+    return lo;
 }

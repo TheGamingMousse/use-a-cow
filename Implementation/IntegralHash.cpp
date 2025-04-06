@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -10,7 +9,7 @@ using ll = long long;
  */
 struct chash {
 	const uint64_t C = uint64_t(2e18 * 3.1415927) + 71;
-	const uint32_t R = chrono::steady_clock::now().time_since_epoch().count();
+	const uint32_t R = std::chrono::steady_clock::now().time_since_epoch().count();
 	size_t operator()(uint64_t x) const {
 		return __builtin_bswap64((x ^ R) * C);
 	}
