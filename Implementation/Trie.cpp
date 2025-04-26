@@ -24,7 +24,7 @@ TrieNode* new_node() {
 TrieNode* root = new_node();
 void insert(const string &s) {
 	TrieNode* cur = root;
-	for (int i = 0; i < sz(s); i++) {
+	for (int i = 0; i < s.size(); i++) {
 		int x = s[i] - 'a';
 		if ((cur -> ch)[x] == nullptr) {
 			(cur -> ch)[x] = new_node();

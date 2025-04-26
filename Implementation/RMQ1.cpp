@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -9,11 +8,11 @@ using ll = long long;
 */
 template <class T> struct RMQ {
     int n; 
-    vector<vector<T>> st;
+    std::vector<std::vector<T>> st;
     
-    void init(const vector<T> &a) {
-        n = (int) a.size();
-        int max_log = 1 + __lg(n);
+    void init(const std::vector<T> &a) {
+        n = a.size();
+        int max_log = 1 + std::__lg(n);
         st.resize(max_log);
         st[0] = a;
         for (int j = 1; j < max_log; j++) {
@@ -26,7 +25,7 @@ template <class T> struct RMQ {
 
     /** @return query on range [l, r] */
     T qry(int l, int r) const {
-        int lg = __lg(r - l + 1);
-        return min(st[lg][l], st[lg][r - (1 << lg) + 1]);
+        int lg = std::__lg(r - l + 1);
+        return std::min(st[lg][l], st[lg][r - (1 << lg) + 1]);
     }
 };

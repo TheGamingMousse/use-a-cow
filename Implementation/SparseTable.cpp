@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -7,11 +6,11 @@ template <typename T, typename F>
 struct SparseTable {
     const int n; 
     const F join;
-    vector<vector<T>> st;
+    std::vector<std::vector<T>> st;
     
-    SparseTable(const vector<T> &a, const F &f) 
+    SparseTable(const std::vector<T> &a, const F &f) 
                : n(a.size()), join(f) {
-        int max_log = 1 + __lg(n);
+        int max_log = 1 + std::__lg(n);
         st.resize(max_log);
         st[0] = a;
         for (int j = 1; j < max_log; j++) {
@@ -24,7 +23,7 @@ struct SparseTable {
 
     /** @return query on range [l, r] */
     T qry(int l, int r) const {
-        int lg = __lg(r - l + 1);
+        int lg = std::__lg(r - l + 1);
         return join(st[lg][l], st[lg][r - (1 << lg) + 1]);
     }
 };
