@@ -5,7 +5,7 @@ using ll = long long;
 /**
  * O(sqrt(x)) prime factorization.
  * Well, map accesses might slow it down,
- * but realistically it doesn't matter.
+ * but realistically it prolly doesn't matter.
  */
 std::map<int, int> factorize(int x) {
     std::map<int, int> res;

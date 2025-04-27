@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -17,11 +16,11 @@ struct HashedString {
 	static __int128 mul(ll a, ll b) { return (__int128) a * b; }
 	static ll mod_mul(ll a, ll b) { return mul(a, b) % M; }
 
-	static vector<ll> pow; // pow[i] = P^i % M
-	vector<ll> p_hash;     // p_hash[i] = hash of first i characters in string
+	static std::vector<ll> pow; // pow[i] = P^i % M
+	std::vector<ll> p_hash;     // p_hash[i] = hash of first i characters in string
 
     HashedString() {}
-	HashedString(const string &s) : p_hash(s.size() + 1) {
+	HashedString(const std::string &s) : p_hash(s.size() + 1) {
 		while (pow.size() < s.size()) { pow.push_back(mod_mul(pow.back(), B)); }
 		p_hash[0] = 0;
 		for (int i = 0; i < (int) s.size(); i++) {
@@ -40,7 +39,7 @@ struct HashedString {
 
 	/** @return len of LCP, starting from st_1 and st_2 for each str */
     int lcp(HashedString &other, int st_1 = 0, int st_2 = 0) {
-        int lo = -1, hi = min(size() - st_1, other.size() - st_2);
+        int lo = -1, hi = std::min(size() - st_1, other.size() - st_2);
         while (lo < hi) {
             int mi = (lo + hi + 1) / 2;
             ll pf_1 = get_hash(st_1, st_1 + mi);
@@ -51,6 +50,6 @@ struct HashedString {
     }
 };
 
-mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
-vector<ll> HashedString::pow = {1};
-const ll HashedString::B = uniform_int_distribution<ll>(0, M - 1)(rng);
+std::vector<ll> HashedString::pow = {1};
+std::mt19937 rng((uint32_t)std::chrono::steady_clock::now().time_since_epoch().count());
+const ll HashedString::B = std::uniform_int_distribution<ll>(0, M - 1)(rng);

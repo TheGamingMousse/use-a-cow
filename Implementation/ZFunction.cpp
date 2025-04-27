@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -9,13 +8,13 @@ using ll = long long;
  * z[0] = s.length in this implementation.
  * @return Z function of the string s.
  */
-vector<int> z_function(const string &s) {
+std::vector<int> z_function(const std::string &s) {
     int n = s.size();
-    vector<int> z(n);
+    std::vector<int> z(n);
     int l = 0, r = 0;
     for (int i = 1; i < n; i++) {
         if (i < r) {
-            z[i] = min(r - i, z[i - l]);
+            z[i] = std::min(r - i, z[i - l]);
         }
         while (i + z[i] < n && s[z[i]] == s[i + z[i]]) {
             z[i]++;
@@ -25,6 +24,7 @@ vector<int> z_function(const string &s) {
             r = i + z[i];
         }
     }
+
     z[0] = n;
     return z;
 }

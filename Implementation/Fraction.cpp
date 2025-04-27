@@ -8,13 +8,15 @@ using ll = long long;
 template<class T> struct Fraction {
     T top = 0, bot = 1;
 
-    auto operator<=>(Fraction const& o) const {
+    auto operator<=>(const Fraction &o) const {
         return (top * o.bot) <=> (o.top * bot);
     }
-    
-    bool operator==(Fraction const& o) const = default;
 
-    friend std::ostream& operator<<(std::ostream& os, Fraction const& f) {
+    bool operator==(const Fraction &o) const {
+        return (top * o.bot) == (o.top * bot);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Fraction &f) {
         return os << f.top << '/' << f.bot;
     }
 };

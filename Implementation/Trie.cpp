@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 
@@ -12,7 +11,7 @@ using ll = long long;
  */
 struct TrieNode {
 	int cnt = 0;
-	array<TrieNode*, 26> ch;
+	std::array<TrieNode*, 26> ch;
 };
 
 TrieNode* new_node() {
@@ -22,7 +21,7 @@ TrieNode* new_node() {
 }
 
 TrieNode* root = new_node();
-void insert(const string &s) {
+void insert(const std::string &s) {
 	TrieNode* cur = root;
 	for (int i = 0; i < s.size(); i++) {
 		int x = s[i] - 'a';
